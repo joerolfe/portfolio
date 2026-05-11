@@ -81,6 +81,7 @@ export default function Hero() {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
+          className="hero-text"
           style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}
         >
           <motion.span variants={itemVariants} className="section-label">
@@ -117,6 +118,7 @@ export default function Hero() {
 
           <motion.div
             variants={itemVariants}
+            className="hero-buttons"
             style={{ display: "flex", alignItems: "center", gap: "1.25rem", flexWrap: "wrap" }}
           >
             <a href="#projects" className="btn-primary">
@@ -130,6 +132,7 @@ export default function Hero() {
           {/* Social icon links */}
           <motion.div
             variants={itemVariants}
+            className="hero-socials"
             style={{ display: "flex", gap: "0.75rem", alignItems: "center", paddingTop: "0.25rem" }}
           >
             {socialLinks.map((s) => (
@@ -170,86 +173,31 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Right — card */}
+        {/* Right — photo */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.7, ease: "easeOut" }}
+          className="hero-photo"
+          style={{ display: "flex", justifyContent: "center" }}
         >
           <div
             style={{
-              background: "var(--bg2)",
               borderRadius: "20px",
-              padding: "2.5rem",
+              overflow: "hidden",
               border: "1px solid var(--border)",
-              display: "flex",
-              flexDirection: "column",
-              gap: "0",
+              width: "100%",
+              maxWidth: "420px",
+              aspectRatio: "3/4",
+              boxShadow: "0 8px 40px rgba(0,0,0,0.10)",
             }}
           >
-            {/* Status pill */}
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                background: "rgba(196,98,45,0.1)",
-                borderRadius: "999px",
-                padding: "0.4rem 0.9rem",
-                marginBottom: "2rem",
-                alignSelf: "flex-start",
-              }}
-            >
-              <span
-                style={{
-                  width: "7px",
-                  height: "7px",
-                  borderRadius: "50%",
-                  background: "var(--accent)",
-                  animation: "pulse-dot 2s ease-in-out infinite",
-                }}
-              />
-              <span
-                style={{
-                  fontSize: "0.72rem",
-                  fontWeight: 600,
-                  color: "var(--accent)",
-                  letterSpacing: "0.05em",
-                }}
-              >
-                Currently building
-              </span>
-            </div>
-
-            {/* Stats */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
-              {stats.map((stat, i) => (
-                <div
-                  key={stat.label}
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    padding: "0.9rem 0",
-                    borderBottom: i < stats.length - 1 ? "1px solid var(--border)" : "none",
-                  }}
-                >
-                  <span style={{ fontSize: "0.8rem", color: "var(--muted)", fontWeight: 400 }}>
-                    {stat.label}
-                  </span>
-                  <span style={{ fontSize: "0.82rem", fontWeight: 600, color: "var(--text)" }}>
-                    {stat.value}
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            {/* Focus areas */}
-            <div style={{ paddingTop: "1.5rem", display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
-              {["Cybersecurity", "AI Automation", "Social Media Automation", "Brand Scaling", "Content Creation"].map((t) => (
-                <span key={t} className="skill-tag">{t}</span>
-              ))}
-            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/joseph.jpg.PNG"
+              alt="Joseph Rolfe"
+              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }}
+            />
           </div>
         </motion.div>
       </div>
@@ -259,6 +207,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.6 }}
+        className="scroll-indicator"
         style={{
           position: "absolute",
           bottom: "2.5rem",
@@ -288,7 +237,23 @@ export default function Hero() {
           50% { opacity: 0.5; transform: scale(0.75); }
         }
         @media (max-width: 768px) {
-          .hero-grid { grid-template-columns: 1fr !important; gap: 2.5rem !important; }
+          .scroll-indicator { display: none !important; }
+
+          .hero-grid {
+            grid-template-columns: 1fr !important;
+            gap: 0 !important;
+            padding: 1.5rem 1.25rem 3rem !important;
+            text-align: center;
+          }
+          .hero-photo { order: -1; margin-bottom: 2rem; }
+          .hero-photo img { border-radius: 999px !important; width: 140px !important; height: 140px !important; aspect-ratio: 1/1 !important; object-position: center top !important; margin: 0 auto; }
+          .hero-photo > div { width: 140px !important; height: 140px !important; aspect-ratio: 1/1 !important; border-radius: 999px !important; max-width: unset !important; margin: 0 auto; }
+          .hero-text { align-items: center !important; }
+          .hero-text p { max-width: 100% !important; }
+          .hero-text .section-label { text-align: center; }
+          .hero-buttons { justify-content: center !important; }
+          .hero-buttons .btn-primary { width: 100%; justify-content: center; }
+          .hero-socials { justify-content: center !important; }
         }
       `}</style>
     </section>

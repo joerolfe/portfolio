@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion, type Variants } from "framer-motion";
 
 const itemVariants: Variants = {
@@ -10,59 +11,60 @@ const itemVariants: Variants = {
 const chapters = [
   {
     period: "2022 – 2024",
-    title: "Before Everything",
+    title: "School & Code Club",
     side: "right",
     body: [
-      "I didn't wait to be taught. While most kids my age were doing homework and moving on, I was teaching younger students to code at Code Club. Running workshops. Watching 10+ students build their first projects from scratch.",
-      "That's when I realised something — I actually knew things worth sharing. And more importantly, I liked figuring things out and then explaining them to other people.",
-      "At some point I thought... why am I not doing this for more people?",
+      "Before I even knew what I wanted to do, I was already doing it. At Robert Sutton School I ran Code Club — teaching younger students to code, running workshops, and watching 10+ kids ship their first projects from scratch.",
+      "School went well. I left with grades I was proud of, a Computer Science 6 under my belt, and a clear sense that tech was the direction I was heading.",
+      "Tech was always the direction.",
     ],
-    highlight: "At some point I thought... why am I not doing this for more people?",
+    highlight: "Tech was always the direction.",
     card: {
-      type: "stat",
+      type: "gcse",
       items: [
-        { label: "Students mentored", value: "10+" },
-        { label: "Role", value: "Volunteer Tech Lead" },
-        { label: "Location", value: "Robert Sutton School" },
+        { label: "English Literature", value: "9" },
+        { label: "English Language", value: "8" },
+        { label: "PE", value: "7" },
+        { label: "Maths", value: "6" },
+        { label: "Computer Science", value: "6" },
+        { label: "RE", value: "6" },
       ],
     },
   },
   {
-    period: "2024",
-    title: "Going All In On Cyber",
+    period: "Summer 2024",
+    title: "Building FluxFUT",
     side: "left",
     body: [
-      "I chose cybersecurity. Not because someone told me to — because I couldn't stop reading about it. How systems get compromised. How attackers think. How to build defences against things that haven't happened yet.",
-      "I enrolled at Burton South Derbyshire College and started stacking Cisco certifications. Not to tick boxes. Because I wanted to actually understand the material front-to-back.",
-      "Nine certifications later, I still hadn't stopped. And I was only just getting started.",
+      "The summer I left school, I didn't take a break — I launched a brand. FluxFUT started as an EAFC gaming content project and quickly grew into something real: a full website, a Discord community, and a custom bot pulling live player stats.",
+      "I posted across 3 TikTok accounts, YouTube, and Instagram. Not everything worked first time, but I kept going — learning in public, iterating, and eventually monetising multiple accounts.",
+      "I figured it out as I went.",
     ],
-    highlight:
-      "Nine certifications later, I still hadn't stopped.",
+    highlight: "I figured it out as I went.",
+    card: {
+      type: "screenshot",
+      href: "https://fluxfut.vercel.app/",
+      site: "fluxfut.vercel.app",
+      screenshot: "/fluxfut-preview.png.png",
+    },
+  },
+  {
+    period: "Sept 2024",
+    title: "Starting College",
+    side: "right",
+    body: [
+      "College is where coding properly clicked. I took a Level 3 Programming & App Development course over two years — starting with HTML, CSS, and JavaScript, then moving into AI and automation as my confidence grew.",
+      "By 2026 I was stacking Cisco certifications to back it all up with real credentials. Nine certs earned, predicted DDD on the OCR Level 3 Extended Diploma.",
+      "Two years well spent.",
+    ],
+    highlight: "Two years well spent.",
     card: {
       type: "stat",
       items: [
+        { label: "College", value: "BSDC" },
         { label: "Cisco certifications", value: "9" },
         { label: "Predicted grade", value: "DDD" },
         { label: "Diploma", value: "OCR L3 Extended IT" },
-      ],
-    },
-  },
-  {
-    period: "2024",
-    title: "Building FluxFUT",
-    side: "right",
-    body: [
-      "At the same time, I was building something completely different. FluxFUT — a content brand in the EAFC gaming niche. I built the website. Grew a Discord server. Built a custom bot that pulled live player stats.",
-      "And I started posting on TikTok. It wasn't perfect at first. But I kept going. Because the only way to get good at something is to actually do it, publicly, in real time.",
-      "Multiple accounts. Multiple monetised. All while studying full time.",
-    ],
-    highlight: "The only way to get good at something is to actually do it — publicly, in real time.",
-    card: {
-      type: "stat",
-      items: [
-        { label: "TikTok accounts", value: "3+" },
-        { label: "Status", value: "Monetised" },
-        { label: "Platform built", value: "FluxFUT" },
       ],
     },
   },
@@ -71,20 +73,16 @@ const chapters = [
     title: "Rolfe Brand Scaling",
     side: "left",
     body: [
-      "I didn't want to wait until university to start working with real clients. So I launched my own agency — Rolfe Brand Scaling. Web development, AI automations, brand strategy. For local businesses who want to grow online.",
-      "I manage the full project — the brief, the design, the build, the deployment. No handoffs. No middlemen. Just me, delivering the work.",
-      "This is what it looks like to build before you're ready.",
+      "I didn't want to wait until university to work with real clients. So I launched Rolfe Brand Scaling — a digital agency offering websites, AI automations, and brand strategy to local businesses who want to grow online.",
+      "I handle every project end to end: the brief, the design, the build, the deployment. No handoffs, no middlemen, no waiting for someone to give me the green light.",
+      "Real clients, real work, before uni.",
     ],
-    highlight: "This is what it looks like to build before you're ready.",
+    highlight: "Real clients, real work, before uni.",
     card: {
-      type: "link",
-      label: "See the agency",
+      type: "screenshot",
       href: "https://myagency-nine.vercel.app/",
-      items: [
-        { label: "Services", value: "Web · AI · Brand" },
-        { label: "Clients", value: "Local SMEs" },
-        { label: "Status", value: "Live" },
-      ],
+      site: "myagency-nine.vercel.app",
+      screenshot: "/agency-preview.png",
     },
   },
   {
@@ -92,18 +90,19 @@ const chapters = [
     title: "What's Next",
     side: "right",
     body: [
-      "Staffordshire University. Cyber Security BSc. Starting September 2026.",
-      "And in parallel — continuing to build. The brands, the agency, the content. All of it running while I study.",
-      "The end goal isn't a job or even just a business. It's a platform. Content and tools that help other people start earlier, build faster, and get ahead before everyone else catches up. Everything I'm doing now is laying that foundation.",
+      "Leaving college this summer and starting a Cyber Security BSc at Staffordshire University in September 2026. The degree is the next step — but it's not the whole plan.",
+      "Both brands keep running in parallel. FluxFUT and Rolfe Brand Scaling will grow alongside my studies, not after them. The goal is to leave uni with real traction, not just a certificate.",
+      "Outside the work, I'm building the person behind it — gym every day, locking in on self-improvement, and building a personal brand around that journey. The plan is to document it, grow it, and eventually help others do the same.",
+      "The degree is one part of a bigger plan.",
     ],
-    highlight:
-      "The end goal isn't a job. It's a platform.",
+    highlight: "The degree is one part of a bigger plan.",
     card: {
       type: "stat",
       items: [
         { label: "University", value: "Staffordshire" },
         { label: "Degree", value: "Cyber Security BSc" },
         { label: "Start", value: "Sept 2026" },
+        { label: "Brands running", value: "2" },
       ],
     },
   },
@@ -143,7 +142,7 @@ export default function AboutTimeline() {
             lineHeight: 1.1,
           }}
         >
-          Building before everyone else.
+          Hey, I&apos;m Joseph. Here&apos;s my story.
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -157,7 +156,7 @@ export default function AboutTimeline() {
             margin: "0 auto",
           }}
         >
-          I&apos;m 18. I&apos;m from Swadlincote. I&apos;ve been learning, building,
+          I&apos;m 18. I&apos;m from Burton on Trent. I&apos;ve been learning, building,
           and shipping — in public — since before most people my age decided what they
           wanted to do.
         </motion.p>
@@ -186,18 +185,86 @@ export default function AboutTimeline() {
           className="timeline-line"
         />
 
-        {chapters.map((chapter, i) => (
-          <TimelineEntry key={i} chapter={chapter} index={i} />
-        ))}
+        {chapters.map((chapter, i) =>
+          chapter.card.type === "screenshot" ? (
+            <ScreenshotEntry key={i} chapter={chapter} index={i} />
+          ) : (
+            <TimelineEntry key={i} chapter={chapter} index={i} />
+          )
+        )}
       </div>
 
       <style>{`
         @media (max-width: 768px) {
           .timeline-line { display: none; }
           .timeline-dot { display: none; }
+          .screenshot-col { margin-right: 0 !important; padding-left: 0 !important; }
         }
       `}</style>
     </div>
+  );
+}
+
+function ScreenshotEntry({
+  chapter,
+  index,
+}: {
+  chapter: (typeof chapters)[0];
+  index: number;
+}) {
+  const card = chapter.card as { type: "screenshot"; href: string; site: string; screenshot: string };
+
+  return (
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.15 }}
+      variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12 } } }}
+      style={{ display: "grid", gridTemplateColumns: "1fr 40px 1fr", gap: "0", marginBottom: "6rem", alignItems: "center" }}
+      className="timeline-entry"
+    >
+      {/* Left — text */}
+      <div style={{ paddingRight: "2.5rem" }}>
+        <TextContent chapter={chapter} />
+      </div>
+
+      {/* Center dot */}
+      <div style={{ display: "flex", justifyContent: "center", paddingTop: "0.5rem", position: "relative", zIndex: 2 }}>
+        <div
+          className="timeline-dot"
+          style={{ width: "12px", height: "12px", borderRadius: "50%", background: "var(--accent)", border: "2px solid var(--bg)", boxShadow: "0 0 0 2px var(--accent)", flexShrink: 0 }}
+        />
+        <span
+          className="timeline-dot"
+          style={{ position: "absolute", top: "1.6rem", fontWeight: 700, fontSize: "0.6rem", color: "var(--muted)", letterSpacing: "0.05em", whiteSpace: "nowrap" }}
+        >
+          {String(index + 1).padStart(2, "0")}
+        </span>
+      </div>
+
+      {/* Right — screenshot (bleeds right) */}
+      <motion.div
+        className="timeline-col-card screenshot-col"
+        style={{ paddingLeft: "1.5rem", marginRight: "-8rem" }}
+        variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } } }}
+      >
+        <a
+          href={card.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ textDecoration: "none", display: "block", borderRadius: "16px", overflow: "hidden", border: "1px solid var(--border)", transition: "box-shadow 0.2s ease, transform 0.2s ease" }}
+          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = "0 16px 48px rgba(0,0,0,0.18)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)"; }}
+          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = "none"; (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={card.screenshot}
+            alt="FluxFUT website"
+            style={{ width: "100%", display: "block", objectFit: "cover", objectPosition: "top" }}
+          />
+        </a>
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -229,13 +296,14 @@ function TimelineEntry({
       className="timeline-entry"
     >
       {/* Left column */}
-      <div style={{ paddingRight: "2.5rem" }}>
+      <div style={{ paddingRight: "2.5rem" }} className={isRight ? "timeline-col-card" : "timeline-col-text"}>
         {!isRight && <TextContent chapter={chapter} />}
         {isRight && <CardContent chapter={chapter} />}
       </div>
 
       {/* Center dot */}
       <div
+        className="timeline-col-dot"
         style={{
           display: "flex",
           justifyContent: "center",
@@ -273,7 +341,7 @@ function TimelineEntry({
       </div>
 
       {/* Right column */}
-      <div style={{ paddingLeft: "2.5rem" }}>
+      <div style={{ paddingLeft: "2.5rem" }} className={isRight ? "timeline-col-text" : "timeline-col-card"}>
         {isRight && <TextContent chapter={chapter} />}
         {!isRight && <CardContent chapter={chapter} />}
       </div>
@@ -281,14 +349,87 @@ function TimelineEntry({
       <style>{`
         @media (max-width: 768px) {
           .timeline-entry {
-            grid-template-columns: 1fr !important;
-            gap: 2rem !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 1.5rem !important;
             margin-bottom: 3.5rem !important;
           }
-          .timeline-entry > div { padding: 0 !important; }
+          .timeline-col-dot { display: none !important; }
+          .timeline-col-text { order: 1; padding: 0 !important; }
+          .timeline-col-card { order: 2; padding: 0 !important; }
+          .timeline-heading { text-align: left !important; }
+          .timeline-para { text-align: left !important; }
+          .timeline-blockquote { text-align: left !important; border-left: 3px solid var(--accent) !important; border-right: none !important; padding-left: 1rem !important; padding-right: 0 !important; }
         }
       `}</style>
     </motion.div>
+  );
+}
+
+function WebsitePreviewButton({ preview }: { preview: { href: string; site: string; screenshot: string } }) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <div style={{ position: "relative", display: "inline-block" }}>
+      <a
+        href={preview.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "0.4rem",
+          fontSize: "0.8rem",
+          fontWeight: 600,
+          color: "var(--accent)",
+          padding: "0.45rem 0.9rem",
+          border: "1px solid rgba(196,98,45,0.3)",
+          borderRadius: "999px",
+          transition: "background 0.2s ease",
+          background: hovered ? "rgba(196,98,45,0.06)" : "transparent",
+          textDecoration: "none",
+        }}
+      >
+        View website ↗
+      </a>
+
+      {hovered && (
+        <div
+          style={{
+            position: "absolute",
+            top: "calc(100% + 10px)",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "280px",
+            background: "var(--bg)",
+            border: "1px solid var(--border)",
+            borderRadius: "12px",
+            overflow: "hidden",
+            boxShadow: "0 12px 40px rgba(0,0,0,0.15)",
+            zIndex: 50,
+            pointerEvents: "none",
+            animation: "preview-in 0.15s ease",
+          }}
+        >
+          {/* Screenshot */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={preview.screenshot}
+            alt="Website preview"
+            style={{ width: "100%", display: "block", aspectRatio: "16/9", objectFit: "cover", objectPosition: "top" }}
+          />
+        </div>
+      )}
+
+      <style>{`
+        @keyframes preview-in {
+          from { opacity: 0; transform: translateX(-50%) translateY(-6px); }
+          to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+      `}</style>
+    </div>
   );
 }
 
@@ -364,6 +505,8 @@ function TextContent({ chapter }: { chapter: (typeof chapters)[0] }) {
 }
 
 function CardContent({ chapter }: { chapter: (typeof chapters)[0] }) {
+  const { card } = chapter;
+
   return (
     <motion.div
       variants={{
@@ -371,62 +514,81 @@ function CardContent({ chapter }: { chapter: (typeof chapters)[0] }) {
         visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
       }}
     >
-      <div
-        style={{
-          background: "var(--bg2)",
-          border: "1px solid var(--border)",
-          borderRadius: "16px",
-          padding: "1.75rem",
-          display: "flex",
-          flexDirection: "column",
-          gap: "0",
-        }}
-      >
-        {chapter.card.items.map((item, i) => (
-          <div
-            key={item.label}
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              padding: "0.75rem 0",
-              borderBottom:
-                i < chapter.card.items.length - 1
-                  ? "1px solid var(--border)"
-                  : "none",
-            }}
-          >
-            <span style={{ fontSize: "0.78rem", color: "var(--muted)" }}>
-              {item.label}
-            </span>
-            <span style={{ fontSize: "0.82rem", fontWeight: 700, color: "var(--text)" }}>
-              {item.value}
-            </span>
+      {/* GCSE grades card */}
+      {card.type === "gcse" && (
+        <div style={{ background: "var(--bg2)", border: "1px solid var(--border)", borderRadius: "16px", padding: "1.75rem" }}>
+          <p style={{ fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--accent)", marginBottom: "1rem" }}>GCSE Results</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
+            {card.items.map((item, i) => (
+              <div key={item.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.65rem 0", borderBottom: i < card.items.length - 1 ? "1px solid var(--border)" : "none" }}>
+                <span style={{ fontSize: "0.78rem", color: "var(--muted)" }}>{item.label}</span>
+                <span style={{
+                  fontSize: "0.82rem", fontWeight: 700,
+                  color: item.value === "9" || item.value === "8" ? "var(--accent)" : "var(--text)",
+                }}>{item.value}</span>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
+      )}
 
-        {"href" in chapter.card && chapter.card.href && (
+      {/* Screenshot card */}
+      {card.type === "screenshot" && "href" in card && (
+        <div style={{ display: "flex", justifyContent: "center" }}>
           <a
-            href={chapter.card.href}
+            href={card.href}
             target="_blank"
             rel="noopener noreferrer"
-            style={{
-              marginTop: "1.25rem",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "0.4rem",
-              fontSize: "0.8rem",
-              fontWeight: 600,
-              color: "var(--accent)",
-              transition: "opacity 0.2s ease",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.7")}
-            onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+            style={{ textDecoration: "none", display: "block", borderRadius: "16px", overflow: "hidden", border: "1px solid var(--border)", transition: "box-shadow 0.2s ease, transform 0.2s ease", width: "100%", maxWidth: "480px" }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = "0 12px 40px rgba(0,0,0,0.18)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = "none"; (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; }}
           >
-            {chapter.card.label} ↗
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={"screenshot" in card ? card.screenshot : ""}
+              alt="FluxFUT website"
+              style={{ width: "100%", display: "block", objectFit: "cover", objectPosition: "top" }}
+            />
           </a>
-        )}
-      </div>
+        </div>
+      )}
+
+      {/* Default stat card */}
+      {card.type === "stat" && (
+        <div style={{ background: "var(--bg2)", border: "1px solid var(--border)", borderRadius: "16px", padding: "1.75rem" }}>
+          {"display" in card && card.display === "pills" ? (
+            <>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+                {card.items.map((item) => (
+                  <div key={item.label} style={{ display: "flex", flexDirection: "column", gap: "0.1rem", background: "var(--bg)", border: "1px solid var(--border)", borderRadius: "10px", padding: "0.6rem 0.9rem", flex: "1 1 calc(50% - 0.25rem)" }}>
+                    <span style={{ fontSize: "0.65rem", fontWeight: 600, color: "var(--accent)", textTransform: "uppercase", letterSpacing: "0.07em" }}>{item.label}</span>
+                    <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "var(--text)" }}>{item.value}</span>
+                  </div>
+                ))}
+              </div>
+              {"preview" in card && card.preview && (
+                <div style={{ marginTop: "1.25rem" }}>
+                  <WebsitePreviewButton preview={card.preview} />
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              {card.items.map((item, i) => (
+                <div key={item.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.75rem 0", borderBottom: i < card.items.length - 1 ? "1px solid var(--border)" : "none" }}>
+                  <span style={{ fontSize: "0.78rem", color: "var(--muted)" }}>{item.label}</span>
+                  <span style={{ fontSize: "0.82rem", fontWeight: 700, color: "var(--text)" }}>{item.value}</span>
+                </div>
+              ))}
+              {"preview" in card && card.preview && (
+                <div style={{ marginTop: "1.25rem", paddingTop: "1.25rem", borderTop: "1px solid var(--border)" }}>
+                  <WebsitePreviewButton preview={card.preview} />
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      )}
     </motion.div>
   );
 }

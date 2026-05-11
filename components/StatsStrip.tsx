@@ -3,11 +3,25 @@
 import { motion, type Variants } from "framer-motion";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
-const stats = [
-  { value: "2", label: "Brands Built" },
-  { value: "9", label: "Certifications" },
-  { value: "3+", label: "Years Building" },
-  { value: "18", label: "Years Old" },
+const current = [
+  {
+    label: "Running",
+    name: "Rolfe Brand Scaling",
+    detail: "Digital agency · Live",
+    dot: true,
+  },
+  {
+    label: "Running",
+    name: "FluxFUT",
+    detail: "Content brand · Live",
+    dot: true,
+  },
+  {
+    label: "Studying",
+    name: "BSDC",
+    detail: "Level 3 Programming · Year 2",
+    dot: true,
+  },
 ];
 
 const containerVariants: Variants = {
@@ -16,7 +30,7 @@ const containerVariants: Variants = {
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: 12 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
 };
 
@@ -27,67 +41,76 @@ export default function StatsStrip() {
     <div
       ref={ref as React.RefObject<HTMLDivElement>}
       style={{
-        background: "var(--text)",
-        borderTop: "1px solid rgba(255,255,255,0.06)",
-        borderBottom: "1px solid rgba(255,255,255,0.06)",
+        background: "var(--bg2)",
+        borderTop: "1px solid var(--border)",
+        borderBottom: "1px solid var(--border)",
       }}
     >
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate={isVisible ? "visible" : "hidden"}
+        className="currently-strip"
         style={{
           maxWidth: "1100px",
           margin: "0 auto",
-          padding: "2.5rem 2rem",
-          display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
-          gap: "1rem",
+          padding: "1.25rem 1.25rem",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "0.5rem",
+          flexWrap: "wrap",
         }}
-        className="stats-strip"
       >
-        {stats.map((stat, i) => (
-          <motion.div
-            key={stat.label}
-            variants={itemVariants}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "0.3rem",
-              padding: "0.5rem 0",
-              borderRight: i < stats.length - 1 ? "1px solid rgba(255,255,255,0.08)" : "none",
-            }}
-          >
-            <span
+        <span style={{ fontSize: "0.72rem", fontWeight: 600, color: "var(--muted)", letterSpacing: "0.08em", textTransform: "uppercase", marginRight: "0.75rem", flexShrink: 0 }}>
+          Currently
+        </span>
+
+        {current.map((item, i) => (
+          <motion.div key={item.name} variants={itemVariants} className="currently-item" style={{ display: "flex", alignItems: "center", gap: "0.5rem", width: "auto" }}>
+            <div
+              className="currently-pill"
               style={{
-                fontWeight: 800,
-                fontSize: "clamp(1.8rem, 3vw, 2.4rem)",
-                letterSpacing: "-0.04em",
-                color: "#fff",
-                lineHeight: 1,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.6rem",
+                background: "var(--bg)",
+                border: "1px solid var(--border)",
+                borderRadius: "999px",
+                padding: "0.45rem 0.9rem",
+                width: "100%",
               }}
             >
-              {stat.value}
-            </span>
-            <span
-              style={{
-                fontSize: "0.75rem",
-                fontWeight: 500,
-                color: "rgba(255,255,255,0.45)",
-                letterSpacing: "0.04em",
-                textTransform: "uppercase",
-              }}
-            >
-              {stat.label}
-            </span>
+              <span
+                style={{
+                  width: "6px",
+                  height: "6px",
+                  borderRadius: "50%",
+                  background: "var(--accent)",
+                  flexShrink: 0,
+                  animation: "pulse-dot 2s ease-in-out infinite",
+                }}
+              />
+              <span style={{ fontSize: "0.82rem", fontWeight: 600, color: "var(--text)" }}>{item.name}</span>
+              <span style={{ fontSize: "0.75rem", color: "var(--muted)" }}>{item.detail}</span>
+            </div>
+            {i < current.length - 1 && (
+              <span className="dot-sep" style={{ color: "var(--muted)", fontSize: "1rem", userSelect: "none", opacity: 0.4 }}>·</span>
+            )}
           </motion.div>
         ))}
       </motion.div>
 
       <style>{`
+        @keyframes pulse-dot {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.4; transform: scale(0.7); }
+        }
         @media (max-width: 640px) {
-          .stats-strip { grid-template-columns: repeat(2, 1fr) !important; }
+          .currently-strip { gap: 0.4rem !important; }
+          .dot-sep { display: none !important; }
+          .currently-item { width: 100% !important; }
+          .currently-pill { width: 100% !important; }
         }
       `}</style>
     </div>
