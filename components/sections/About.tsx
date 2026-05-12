@@ -14,7 +14,7 @@ const pillars = [
     num: "02",
     title: "Personal Brand",
     body: "Multiple monetised TikTok accounts, a Discord community, and social automation — all built and run by me.",
-  },
+  }, 
   {
     num: "03",
     title: "Cybersecurity",
@@ -161,7 +161,7 @@ function PillarCard({ pillar }: { pillar: { num: string; title: string; body: st
     </motion.div>
   );
 }
-
+//t
 export default function About() {
   const { ref, isVisible } = useScrollAnimation();
 
