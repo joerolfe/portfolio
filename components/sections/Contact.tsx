@@ -151,7 +151,7 @@ function ContactCard({ method }: { method: typeof methods[0] }) {
   return (
     <a
       href={method.href}
-      target={method.href.startsWith("mailto") ? undefined : "_blank"}
+      target="_blank"
       rel="noopener noreferrer"
       style={{
         display: "flex",
