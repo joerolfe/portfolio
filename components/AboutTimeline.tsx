@@ -554,41 +554,44 @@ function CardContent({ chapter }: { chapter: (typeof chapters)[0] }) {
       )}
 
       {/* Default stat card */}
-      {card.type === "stat" && (
-        <div style={{ background: "var(--bg2)", border: "1px solid var(--border)", borderRadius: "16px", padding: "1.75rem" }}>
-          {"display" in card && card.display === "pills" ? (
-            <>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
-                {card.items.map((item) => (
-                  <div key={item.label} style={{ display: "flex", flexDirection: "column", gap: "0.1rem", background: "var(--bg)", border: "1px solid var(--border)", borderRadius: "10px", padding: "0.6rem 0.9rem", flex: "1 1 calc(50% - 0.25rem)" }}>
-                    <span style={{ fontSize: "0.65rem", fontWeight: 600, color: "var(--accent)", textTransform: "uppercase", letterSpacing: "0.07em" }}>{item.label}</span>
-                    <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "var(--text)" }}>{item.value}</span>
+      {card.type === "stat" && "items" in card && (() => {
+        const statCard = card as { type: string; items: { label: string; value: string }[]; display?: string; preview?: { href: string; site: string; screenshot: string } };
+        return (
+          <div style={{ background: "var(--bg2)", border: "1px solid var(--border)", borderRadius: "16px", padding: "1.75rem" }}>
+            {statCard.display === "pills" ? (
+              <>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+                  {statCard.items.map((item) => (
+                    <div key={item.label} style={{ display: "flex", flexDirection: "column", gap: "0.1rem", background: "var(--bg)", border: "1px solid var(--border)", borderRadius: "10px", padding: "0.6rem 0.9rem", flex: "1 1 calc(50% - 0.25rem)" }}>
+                      <span style={{ fontSize: "0.65rem", fontWeight: 600, color: "var(--accent)", textTransform: "uppercase", letterSpacing: "0.07em" }}>{item.label}</span>
+                      <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "var(--text)" }}>{item.value}</span>
+                    </div>
+                  ))}
+                </div>
+                {statCard.preview && (
+                  <div style={{ marginTop: "1.25rem" }}>
+                    <WebsitePreviewButton preview={statCard.preview} />
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                {statCard.items.map((item, i) => (
+                  <div key={item.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.75rem 0", borderBottom: i < statCard.items.length - 1 ? "1px solid var(--border)" : "none" }}>
+                    <span style={{ fontSize: "0.78rem", color: "var(--muted)" }}>{item.label}</span>
+                    <span style={{ fontSize: "0.82rem", fontWeight: 700, color: "var(--text)" }}>{item.value}</span>
                   </div>
                 ))}
-              </div>
-              {"preview" in card && card.preview && (
-                <div style={{ marginTop: "1.25rem" }}>
-                  <WebsitePreviewButton preview={card.preview} />
-                </div>
-              )}
-            </>
-          ) : (
-            <>
-              {card.items.map((item, i) => (
-                <div key={item.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.75rem 0", borderBottom: i < card.items.length - 1 ? "1px solid var(--border)" : "none" }}>
-                  <span style={{ fontSize: "0.78rem", color: "var(--muted)" }}>{item.label}</span>
-                  <span style={{ fontSize: "0.82rem", fontWeight: 700, color: "var(--text)" }}>{item.value}</span>
-                </div>
-              ))}
-              {"preview" in card && card.preview && (
-                <div style={{ marginTop: "1.25rem", paddingTop: "1.25rem", borderTop: "1px solid var(--border)" }}>
-                  <WebsitePreviewButton preview={card.preview} />
-                </div>
-              )}
-            </>
-          )}
-        </div>
-      )}
+                {statCard.preview && (
+                  <div style={{ marginTop: "1.25rem", paddingTop: "1.25rem", borderTop: "1px solid var(--border)" }}>
+                    <WebsitePreviewButton preview={statCard.preview} />
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        );
+      })()}
     </motion.div>
   );
 }
