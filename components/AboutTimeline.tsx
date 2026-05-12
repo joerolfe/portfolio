@@ -515,12 +515,12 @@ function CardContent({ chapter }: { chapter: (typeof chapters)[0] }) {
       }}
     >
       {/* GCSE grades card */}
-      {card.type === "gcse" && (
+      {card.type === "gcse" && "items" in card && (
         <div style={{ background: "var(--bg2)", border: "1px solid var(--border)", borderRadius: "16px", padding: "1.75rem" }}>
           <p style={{ fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--accent)", marginBottom: "1rem" }}>GCSE Results</p>
           <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
-            {card.items.map((item, i) => (
-              <div key={item.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.65rem 0", borderBottom: i < card.items.length - 1 ? "1px solid var(--border)" : "none" }}>
+            {(card as { type: string; items: { label: string; value: string }[] }).items.map((item, i) => (
+              <div key={item.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.65rem 0", borderBottom: i < (card as { type: string; items: { label: string; value: string }[] }).items.length - 1 ? "1px solid var(--border)" : "none" }}>
                 <span style={{ fontSize: "0.78rem", color: "var(--muted)" }}>{item.label}</span>
                 <span style={{
                   fontSize: "0.82rem", fontWeight: 700,
