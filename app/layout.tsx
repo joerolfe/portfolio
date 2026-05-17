@@ -10,6 +10,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  verification: {
+    google: "google92b75e77fb2571fe",
+  },
   title: "Joseph Rolfe — Founder & Cyber Student",
   description:
     "18-year-old cybersecurity student and founder of Rolfe Brand Scaling. Building brands, automations, and a personal platform — before everyone else.",
