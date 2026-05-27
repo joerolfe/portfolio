@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion, type Variants } from "framer-motion";
 
 const itemVariants: Variants = {
@@ -10,15 +11,15 @@ const itemVariants: Variants = {
 
 const chapters = [
   {
-    period: "2022 – 2026",
-    title: "School & College",
+    period: "2022 – 2024",
+    title: "School & Code Club",
     side: "right",
     body: [
-      "At school I ran Code Club — teaching younger students, running workshops, watching 10+ kids ship their first projects. Left with grades I was proud of and a clear sense of direction.",
-      "College is where it properly clicked. Two years on a Level 3 Programming & App Development course at BSDC — HTML, CSS, JS, then deeper into AI and automation. By 2026 I had nine Cisco certifications and a predicted DDD on the OCR Extended Diploma.",
-      "Academic foundation built. Time to do something with it.",
+      "Before I even knew what I wanted to do, I was already doing it. At Robert Sutton School I ran Code Club — teaching younger students to code, running workshops, and watching 10+ kids ship their first projects from scratch.",
+      "School went well. I left with grades I was proud of, a Computer Science 6 under my belt, and a clear sense that tech was the direction I was heading.",
+      "Tech was always the direction.",
     ],
-    highlight: "Academic foundation built. Time to do something with it.",
+    highlight: "Tech was always the direction.",
     card: {
       type: "gcse",
       items: [
@@ -27,21 +28,20 @@ const chapters = [
         { label: "PE", value: "7" },
         { label: "Maths", value: "6" },
         { label: "Computer Science", value: "6" },
-        { label: "Cisco Certs", value: "9" },
+        { label: "RE", value: "6" },
       ],
     },
   },
   {
-    period: "2024 – Present",
-    title: "Social Media Automation",
+    period: "Summer 2024",
+    title: "Building FluxFUT",
     side: "left",
     body: [
-      "The summer I left school I launched FluxFUT — an EAFC gaming content brand across 3 TikToks, YouTube, and Instagram. That taught me how content works at scale. Then I took it further.",
-      "Now I run multiple TikTok accounts and a TikTok Shop generating income on autopilot. Built systems for content scheduling, product fulfilment, and audience growth — money coming in while I focus on other things.",
-      "I also built out the FluxFUT Discord with digital products that sell passively.",
-      "Automated income before the age of 19.",
+      "The summer I left school, I didn't take a break — I launched a brand. FluxFUT started as an EAFC gaming content project and quickly grew into something real: a full website, a Discord community, and a custom bot pulling live player stats.",
+      "I posted across 3 TikTok accounts, YouTube, and Instagram. Not everything worked first time, but I kept going — learning in public, iterating, and eventually monetising multiple accounts.",
+      "I figured it out as I went.",
     ],
-    highlight: "Automated income before the age of 19.",
+    highlight: "I figured it out as I went.",
     card: {
       type: "screenshot",
       href: "https://fluxfut.vercel.app/",
@@ -50,9 +50,29 @@ const chapters = [
     },
   },
   {
+    period: "Sept 2024",
+    title: "Starting College",
+    side: "right",
+    body: [
+      "College is where coding properly clicked. I took a Level 3 Programming & App Development course over two years — starting with HTML, CSS, and JavaScript, then moving into AI and automation as my confidence grew.",
+      "By 2026 I was stacking Cisco certifications to back it all up with real credentials. Nine certs earned, predicted DDD on the OCR Level 3 Extended Diploma.",
+      "Two years well spent.",
+    ],
+    highlight: "Two years well spent.",
+    card: {
+      type: "stat",
+      items: [
+        { label: "College", value: "BSDC" },
+        { label: "Cisco certifications", value: "9" },
+        { label: "Predicted grade", value: "DDD" },
+        { label: "Diploma", value: "OCR L3 Extended IT" },
+      ],
+    },
+  },
+  {
     period: "April 2026",
     title: "Rolfe Brand Scaling",
-    side: "right",
+    side: "left",
     body: [
       "I didn't want to wait until university to work with real clients. So I launched Rolfe Brand Scaling — a digital agency offering websites, AI automations, and brand strategy to local businesses who want to grow online.",
       "I handle every project end to end: the brief, the design, the build, the deployment. No handoffs, no middlemen, no waiting for someone to give me the green light.",
@@ -69,10 +89,10 @@ const chapters = [
   {
     period: "2026 →",
     title: "What's Next",
-    side: "left",
+    side: "right",
     body: [
-      "Starting a Cyber Security BSc at Staffordshire University in September 2026. The degree matters — but it's one part of a bigger picture.",
-      "The automation business keeps running. Rolfe Brand Scaling keeps growing. I also own the app Ritual, which I'm building out alongside everything else.",
+      "Leaving college this summer and starting a Cyber Security BSc at Staffordshire University in September 2026. The degree is the next step — but it's not the whole plan.",
+      "The TikTok Shop and automation accounts keep running. FluxFUT keeps growing. Rolfe Brand Scaling keeps taking on clients. None of it stops when I start uni.",
       "Outside the work, I'm building the person behind it — gym every day, locking in on self-improvement, and building a personal brand around that journey. The plan is to document it and eventually help others do the same.",
       "The degree is one part of a bigger plan.",
     ],
@@ -82,8 +102,8 @@ const chapters = [
       items: [
         { label: "University", value: "Staffordshire" },
         { label: "Degree", value: "Cyber Security BSc" },
-        { label: "App", value: "Ritual" },
-        { label: "Ventures running", value: "3+" },
+        { label: "Start", value: "Sept 2026" },
+        { label: "Ventures running", value: "3" },
       ],
     },
   },
@@ -174,6 +194,53 @@ export default function AboutTimeline() {
           )
         )}
       </div>
+
+      {/* Academic crosslink */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        style={{ textAlign: "center", padding: "0 2rem 4rem" }}
+      >
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "1rem",
+            background: "var(--bg2)",
+            border: "1px solid var(--border)",
+            borderRadius: "16px",
+            padding: "1.25rem 2rem",
+          }}
+        >
+          <div style={{ textAlign: "left" }}>
+            <p style={{ fontWeight: 700, fontSize: "0.88rem", color: "var(--text)", margin: 0 }}>Want the academic breakdown?</p>
+            <p style={{ fontSize: "0.82rem", color: "var(--muted)", margin: "0.2rem 0 0" }}>GCSEs, college, Cisco certs, and skills — all in one place.</p>
+          </div>
+          <Link
+            href="/academic"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.4rem",
+              fontSize: "0.82rem",
+              fontWeight: 600,
+              color: "var(--accent)",
+              padding: "0.5rem 1rem",
+              border: "1px solid rgba(196,98,45,0.3)",
+              borderRadius: "999px",
+              textDecoration: "none",
+              whiteSpace: "nowrap",
+              transition: "background 0.2s ease",
+            }}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "rgba(196,98,45,0.06)")}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "transparent")}
+          >
+            View Academic →
+          </Link>
+        </div>
+      </motion.div>
 
       <style>{`
         @media (max-width: 768px) {

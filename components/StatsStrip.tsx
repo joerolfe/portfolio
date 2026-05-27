@@ -12,14 +12,14 @@ const current = [
   },
   {
     label: "Running",
-    name: "Social Media Automation",
-    detail: "TikTok Shop · Autopilot",
+    name: "TikTok Shop & Automation",
+    detail: "Social media · Autopilot",
     dot: true,
   },
   {
-    label: "Owner",
-    name: "Ritual",
-    detail: "App · Live",
+    label: "Running",
+    name: "FluxFUT",
+    detail: "Content brand · Live",
     dot: true,
   },
 ];
@@ -62,8 +62,9 @@ export default function StatsStrip() {
           flexWrap: "wrap",
         }}
       >
-        <span style={{ fontSize: "0.72rem", fontWeight: 600, color: "var(--muted)", letterSpacing: "0.08em", textTransform: "uppercase", marginRight: "0.75rem", flexShrink: 0 }}>
-          Currently
+        <span style={{ fontSize: "0.72rem", fontWeight: 600, color: "var(--muted)", letterSpacing: "0.08em", textTransform: "uppercase", marginRight: "0.75rem", flexShrink: 0, display: "flex", alignItems: "center", gap: "0.4rem" }}>
+          <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "var(--accent)", display: "inline-block", animation: "pulse-dot 2s ease-in-out infinite" }} />
+          Right now
         </span>
 
         {current.map((item, i) => (

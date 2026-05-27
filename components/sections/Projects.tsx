@@ -6,13 +6,13 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const featured = [
   {
-    title: "Social Media Automation",
-    tagline: "TikTok Shop · income on autopilot",
+    title: "FluxFUT",
+    tagline: "Content brand & community",
     description:
-      "Running multiple TikTok accounts and a TikTok Shop that generate income on autopilot. Built systems for content automation and product fulfilment — money coming in while I sleep.",
-    tags: ["TikTok Shop", "Automation", "Content", "E-commerce"],
+      "Built and grew a content brand in the EAFC gaming niche from scratch. Full website, Discord community with digital products, a custom bot, and content across TikTok, YouTube and Instagram.",
+    tags: ["Next.js", "Discord.js", "Digital Products", "Content"],
     status: "Live",
-    link: null,
+    link: "https://fluxfut.vercel.app/",
     accent: "#c4622d",
   },
   {
@@ -29,17 +29,17 @@ const featured = [
 
 const other = [
   {
-    title: "Ritual",
+    title: "Social Media Automation",
     description:
-      "App I own. Built to help people build better daily habits and routines through structured tracking and accountability.",
-    tags: ["App", "Productivity", "Habits"],
+      "Running automated accounts across TikTok, Instagram, and YouTube — content scheduling, growth systems, and audience funnels built to run without daily input.",
+    tags: ["TikTok", "Instagram", "YouTube", "Automation"],
     status: "Live",
   },
   {
-    title: "FluxFUT",
+    title: "TikTok Shop",
     description:
-      "EAFC gaming content brand. Full website, Discord community with digital products, custom bot, and content across TikTok, YouTube and Instagram.",
-    tags: ["Next.js", "Discord.js", "Digital Products"],
+      "TikTok Shop set up and running with automated product fulfilment. Generates passive income alongside the content operation.",
+    tags: ["TikTok Shop", "E-commerce", "Automation"],
     status: "Live",
   },
   {

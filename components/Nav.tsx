@@ -7,10 +7,11 @@ import { AnimatePresence, motion } from "framer-motion";
 
 const navLinks = [
   { label: "About", href: "/about" },
+  { label: "Academic", href: "/academic" },
   { label: "Projects", href: "/#projects" },
-  { label: "Skills", href: "/#skills" },
   { label: "Experience", href: "/#experience" },
 ];
+// Skills + Certifications live on /academic, not the homepage
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
@@ -225,7 +226,7 @@ export default function Nav() {
             >
               <div style={{ padding: "1.25rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
                 {navLinks.map((link) =>
-                  link.href.startsWith("/about") ? (
+                  !link.href.startsWith("/#") ? (
                     <Link
                       key={link.href}
                       href={link.href}
@@ -282,12 +283,13 @@ function NavItem({
   onClick: (href: string) => void;
   pathname: string;
 }) {
-  const isActive = link.href === "/about" && pathname === "/about";
+  const isPageLink = link.href === "/about" || link.href === "/academic";
+  const isActive = isPageLink && pathname === link.href;
 
-  if (link.href === "/about") {
+  if (isPageLink) {
     return (
       <Link
-        href="/about"
+        href={link.href}
         style={{
           fontWeight: 500,
           fontSize: "0.82rem",

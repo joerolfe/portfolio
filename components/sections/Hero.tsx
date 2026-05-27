@@ -85,7 +85,7 @@ export default function Hero() {
           style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}
         >
           <motion.span variants={itemVariants} className="section-label">
-            Founder · Automation · Cybersecurity
+            TikTok Shop · Automation · Agency · Uni Sept 2026
           </motion.span>
 
           <motion.h1
@@ -111,10 +111,11 @@ export default function Hero() {
               fontWeight: 400,
             }}
           >
-            I run social media automations — TikTok accounts and a TikTok Shop
-            earning on autopilot. I own the app Ritual, run Rolfe Brand Scaling
-            agency, and built FluxFUT with a Discord and digital products.
-            All before uni.
+            I do TikTok Shop and run social media automation accounts generating
+            income on autopilot. I built FluxFUT — a content brand with a
+            Discord and digital products — and run Rolfe Brand Scaling, a
+            digital agency. All while locking in on self-improvement and heading
+            to uni in September.
           </motion.p>
 
           <motion.div
