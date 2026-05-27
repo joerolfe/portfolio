@@ -85,7 +85,7 @@ export default function Hero() {
           style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}
         >
           <motion.span variants={itemVariants} className="section-label">
-            Cybersecurity Student &amp; Founder
+            Founder · Automation · Cybersecurity
           </motion.span>
 
           <motion.h1
@@ -111,9 +111,10 @@ export default function Hero() {
               fontWeight: 400,
             }}
           >
-            I build websites, automations, and brands — while studying
-            cybersecurity. 18 years old, already running a real agency. Not
-            waiting for anyone to give me permission.
+            I run social media automations — TikTok accounts and a TikTok Shop
+            earning on autopilot. I own the app Ritual, run Rolfe Brand Scaling
+            agency, and built FluxFUT with a Discord and digital products.
+            All before uni.
           </motion.p>
 
           <motion.div

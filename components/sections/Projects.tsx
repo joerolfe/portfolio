@@ -6,6 +6,16 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const featured = [
   {
+    title: "Social Media Automation",
+    tagline: "TikTok Shop · income on autopilot",
+    description:
+      "Running multiple TikTok accounts and a TikTok Shop that generate income on autopilot. Built systems for content automation and product fulfilment — money coming in while I sleep.",
+    tags: ["TikTok Shop", "Automation", "Content", "E-commerce"],
+    status: "Live",
+    link: null,
+    accent: "#c4622d",
+  },
+  {
     title: "Rolfe Brand Scaling",
     tagline: "My digital agency",
     description:
@@ -15,38 +25,28 @@ const featured = [
     link: "https://myagency-nine.vercel.app/",
     accent: "#c4622d",
   },
-  {
-    title: "FluxFUT",
-    tagline: "Content brand & community",
-    description:
-      "Built and grew a content brand in the EAFC gaming niche from scratch. Developed the brand website, grew a Discord community, built a custom bot, and created content across multiple platforms.",
-    tags: ["Next.js", "Discord.js", "Content", "Community"],
-    status: "Live",
-    link: "https://fluxfut.vercel.app/",
-    accent: "#c4622d",
-  },
 ];
 
 const other = [
+  {
+    title: "Ritual",
+    description:
+      "App I own. Built to help people build better daily habits and routines through structured tracking and accountability.",
+    tags: ["App", "Productivity", "Habits"],
+    status: "Live",
+  },
+  {
+    title: "FluxFUT",
+    description:
+      "EAFC gaming content brand. Full website, Discord community with digital products, custom bot, and content across TikTok, YouTube and Instagram.",
+    tags: ["Next.js", "Discord.js", "Digital Products"],
+    status: "Live",
+  },
   {
     title: "FluxBot",
     description:
       "Custom Discord bot for the FluxFUT server. Handles moderation and slash commands for EAFC player stats, prices, and data.",
     tags: ["JavaScript", "Discord.js", "Bot"],
-    status: "Live",
-  },
-  {
-    title: "FluxSell",
-    description:
-      "Full-stack reseller dashboard for tracking Vinted sales, managing inventory, and analysing pricing trends with revenue visualisations.",
-    tags: ["Next.js", "TypeScript", "Supabase"],
-    status: "Live",
-  },
-  {
-    title: "Content Dashboard",
-    description:
-      "Personal content management dashboard centralising content tracking and scheduling across platforms.",
-    tags: ["Next.js", "TypeScript", "Shadcn UI"],
     status: "Live",
   },
 ];

@@ -12,14 +12,14 @@ const current = [
   },
   {
     label: "Running",
-    name: "FluxFUT",
-    detail: "Content brand · Live",
+    name: "Social Media Automation",
+    detail: "TikTok Shop · Autopilot",
     dot: true,
   },
   {
-    label: "Studying",
-    name: "BSDC",
-    detail: "Level 3 Programming · Year 2",
+    label: "Owner",
+    name: "Ritual",
+    detail: "App · Live",
     dot: true,
   },
 ];
