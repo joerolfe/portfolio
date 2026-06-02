@@ -84,7 +84,7 @@ export default function Skills() {
     <section
       id="skills"
       ref={ref as React.RefObject<HTMLElement>}
-      style={{ background: "var(--bg2)" }}
+      style={{ background: "var(--bg2)", borderTop: "1px solid var(--border)" }}
     >
       <motion.div
         className="section-container"

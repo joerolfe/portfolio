@@ -5,7 +5,7 @@ import AcademicPage from "@/components/AcademicPage";
 export const metadata = {
   title: "Academic — Joseph Rolfe",
   description:
-    "School, college, Cisco certifications, and the programming and cybersecurity skills Joseph Rolfe has built from 2022 to present.",
+    "9 Cisco certifications, predicted DDD on OCR Level 3, and a Cyber Security BSc at Staffordshire University from Sept 2026. The full academic breakdown.",
 };
 
 export default function Academic() {

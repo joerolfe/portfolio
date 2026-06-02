@@ -72,7 +72,17 @@ export default function Footer() {
         </Link>
 
         <span style={{ fontSize: "0.78rem", color: "var(--muted)" }}>
-          © 2026 · Built intentionally.
+          © {new Date().getFullYear()} ·{" "}
+          <a
+            href="https://www.instagram.com/joerolffe"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "var(--muted)", textDecoration: "none", fontWeight: 500, transition: "color 0.2s ease" }}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--accent)")}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--muted)")}
+          >
+            Building in public.
+          </a>
         </span>
 
         <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>

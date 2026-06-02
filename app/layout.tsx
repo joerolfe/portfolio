@@ -13,21 +13,31 @@ export const metadata: Metadata = {
   verification: {
     google: "google92b75e77fb2571fe",
   },
-  title: "Joseph Rolfe — Founder & Cyber Student",
+  title: "Joseph Rolfe — Founder, TikTok Shop & Cyber Student",
   description:
-    "18-year-old cybersecurity student and founder of Rolfe Brand Scaling. Building brands, automations, and a personal platform — before everyone else.",
+    "18-year-old running Rolfe Brand Scaling, TikTok Shop, and social media automation — making £1k+ a month online while studying for a Cyber Security degree. Building in public.",
   openGraph: {
-    title: "Joseph Rolfe — Founder & Cyber Student",
+    title: "Joseph Rolfe — Founder, TikTok Shop & Cyber Student",
     description:
-      "18-year-old cybersecurity student and founder of Rolfe Brand Scaling. Building brands, automations, and a personal platform — before everyone else.",
+      "18-year-old running Rolfe Brand Scaling, TikTok Shop, and social media automation — making £1k+ a month online while studying for a Cyber Security degree.",
     type: "website",
     locale: "en_GB",
+    url: "https://joerolfe.dev",
+    images: [
+      {
+        url: "/joseph.jpg.PNG",
+        width: 800,
+        height: 1067,
+        alt: "Joseph Rolfe",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Joseph Rolfe — Founder & Cyber Student",
+    title: "Joseph Rolfe — Founder, TikTok Shop & Cyber Student",
     description:
-      "18-year-old cybersecurity student and founder of Rolfe Brand Scaling. Building brands, automations, and a personal platform — before everyone else.",
+      "18-year-old running Rolfe Brand Scaling, TikTok Shop, and social media automation — making £1k+ a month online.",
+    images: ["/joseph.jpg.PNG"],
   },
 };
 

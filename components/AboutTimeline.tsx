@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Fragment, useRef, useEffect } from "react";
 import Link from "next/link";
-import { motion, type Variants } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
 
 const itemVariants: Variants = {
   hidden: { opacity: 0, y: 28 },
@@ -70,6 +70,44 @@ const chapters = [
     },
   },
   {
+    period: "Dec 2024 – Dec 2025",
+    title: "Admiral & Co Fish Bar",
+    side: "left",
+    body: [
+      "My first paid job — kitchen assistant at a local fish bar. Handled food prep, worked busy service periods, and dealt with cash and card payments.",
+      "Not glamorous, but it taught me how to work under pressure, show up consistently, and get things done without being told twice.",
+      "Work ethic starts here.",
+    ],
+    highlight: "Work ethic starts here.",
+    card: {
+      type: "stat",
+      items: [
+        { label: "Role", value: "Kitchen Assistant" },
+        { label: "Type", value: "Part-time" },
+        { label: "Period", value: "Dec 2024 – Dec 2025" },
+      ],
+    },
+  },
+  {
+    period: "Mar 2026 – Present",
+    title: "B&Q",
+    side: "right",
+    body: [
+      "Customer-facing retail role at B&Q, running alongside college and everything I was building on the side. Fast-paced environment, lots of customer interaction.",
+      "Proof that I was juggling real work, studies, and building my own income streams at the same time.",
+      "Everything running at once.",
+    ],
+    highlight: "Everything running at once.",
+    card: {
+      type: "stat",
+      items: [
+        { label: "Role", value: "Customer Advisor" },
+        { label: "Type", value: "Contract" },
+        { label: "Period", value: "Mar 2026 – Present" },
+      ],
+    },
+  },
+  {
     period: "April 2026",
     title: "Rolfe Brand Scaling",
     side: "left",
@@ -129,6 +167,29 @@ const chapters = [
 ];
 
 export default function AboutTimeline() {
+  const schoolSectionRef = useRef<HTMLDivElement>(null);
+  const admiralRef = useRef<HTMLDivElement>(null);
+  const [showCallout, setShowCallout] = useState(false);
+
+  useEffect(() => {
+    const schoolEl = schoolSectionRef.current;
+    const admiralEl = admiralRef.current;
+    if (!schoolEl || !admiralEl) return;
+
+    const schoolObserver = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setShowCallout(true); },
+      { threshold: 0.05 }
+    );
+    const admiralObserver = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setShowCallout(false); },
+      { threshold: 0.05, rootMargin: "0px 0px -80% 0px" }
+    );
+
+    schoolObserver.observe(schoolEl);
+    admiralObserver.observe(admiralEl);
+    return () => { schoolObserver.disconnect(); admiralObserver.disconnect(); };
+  }, []);
+
   return (
     <div style={{ background: "var(--bg)" }}>
       {/* Page hero */}
@@ -143,16 +204,16 @@ export default function AboutTimeline() {
       >
         <motion.span
           className="section-label"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15, duration: 0.5, ease: "easeOut" }}
         >
           My Story
         </motion.span>
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.6, ease: "easeOut" }}
+          transition={{ delay: 0.28, duration: 0.65, ease: [0.25, 0.1, 0.25, 1] }}
           style={{
             fontWeight: 800,
             fontSize: "clamp(2.2rem, 5vw, 3.4rem)",
@@ -168,7 +229,7 @@ export default function AboutTimeline() {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6, ease: "easeOut" }}
+          transition={{ delay: 0.42, duration: 0.6, ease: "easeOut" }}
           style={{
             fontSize: "1.05rem",
             color: "var(--muted)",
@@ -188,7 +249,7 @@ export default function AboutTimeline() {
         style={{
           maxWidth: "960px",
           margin: "0 auto",
-          padding: "0 2rem 8rem",
+          padding: "0 2rem 3rem",
           position: "relative",
         }}
         className="timeline-outer"
@@ -207,62 +268,84 @@ export default function AboutTimeline() {
           className="timeline-line"
         />
 
-        {chapters.map((chapter, i) =>
-          chapter.card.type === "screenshot" ? (
-            <ScreenshotEntry key={i} chapter={chapter} index={i} />
-          ) : (
-            <TimelineEntry key={i} chapter={chapter} index={i} />
-          )
-        )}
+        {/* School → College section (entries 0-2) tracked for floating callout */}
+        <div ref={schoolSectionRef}>
+          {chapters.slice(0, 3).map((chapter, i) => (
+            <Fragment key={i}>
+              {chapter.card.type === "screenshot" ? (
+                <ScreenshotEntry chapter={chapter} index={i} />
+              ) : (
+                <TimelineEntry chapter={chapter} index={i} />
+              )}
+            </Fragment>
+          ))}
+        </div>
+
+        {/* Rest of timeline — Admiral entry gets a ref to stop the callout */}
+        {chapters.slice(3).map((chapter, i) => (
+          <Fragment key={i + 3}>
+            {i === 0 && <div ref={admiralRef} />}
+            {chapter.card.type === "screenshot" ? (
+              <ScreenshotEntry chapter={chapter} index={i + 3} />
+            ) : (
+              <TimelineEntry chapter={chapter} index={i + 3} />
+            )}
+          </Fragment>
+        ))}
       </div>
 
-      {/* Academic crosslink */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        style={{ textAlign: "center", padding: "0 2rem 4rem" }}
-      >
-        <div
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "1rem",
-            background: "var(--bg2)",
-            border: "1px solid var(--border)",
-            borderRadius: "16px",
-            padding: "1.25rem 2rem",
-          }}
-          className="about-crosslink"
-        >
-          <div style={{ textAlign: "left" }}>
-            <p style={{ fontWeight: 700, fontSize: "0.88rem", color: "var(--text)", margin: 0 }}>Want the academic breakdown?</p>
-            <p style={{ fontSize: "0.82rem", color: "var(--muted)", margin: "0.2rem 0 0" }}>GCSEs, college, Cisco certs, and skills — all in one place.</p>
-          </div>
-          <Link
-            href="/academic"
+      {/* Floating academic callout */}
+      <AnimatePresence>
+        {showCallout && (
+          <motion.div
+            initial={{ opacity: 0, x: 40, scale: 0.92 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 40, scale: 0.92 }}
+            transition={{ type: "spring", stiffness: 300, damping: 28 }}
             style={{
-              display: "inline-flex",
+              position: "fixed",
+              bottom: "2rem",
+              right: "2rem",
+              zIndex: 50,
+              background: "rgba(242,237,230,0.95)",
+              backdropFilter: "blur(14px)",
+              WebkitBackdropFilter: "blur(14px)",
+              border: "1px solid var(--border)",
+              borderRadius: "16px",
+              padding: "1rem 1.25rem",
+              boxShadow: "0 8px 32px rgba(0,0,0,0.10)",
+              display: "flex",
               alignItems: "center",
-              gap: "0.4rem",
-              fontSize: "0.82rem",
-              fontWeight: 600,
-              color: "var(--accent)",
-              padding: "0.5rem 1rem",
-              border: "1px solid rgba(196,98,45,0.3)",
-              borderRadius: "999px",
-              textDecoration: "none",
-              whiteSpace: "nowrap",
-              transition: "background 0.2s ease",
+              gap: "1rem",
+              maxWidth: "320px",
             }}
-            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "rgba(196,98,45,0.06)")}
-            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "transparent")}
           >
-            View Academic →
-          </Link>
-        </div>
-      </motion.div>
+            <div>
+              <p style={{ fontWeight: 700, fontSize: "0.82rem", color: "var(--text)", margin: 0, lineHeight: 1.3 }}>Want the academic breakdown?</p>
+              <p style={{ fontSize: "0.75rem", color: "var(--muted)", margin: "0.2rem 0 0" }}>GCSEs, certs, and skills in one place.</p>
+            </div>
+            <Link
+              href="/academic"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.3rem",
+                fontSize: "0.78rem",
+                fontWeight: 600,
+                color: "#fff",
+                background: "var(--accent)",
+                padding: "0.5rem 0.9rem",
+                borderRadius: "999px",
+                textDecoration: "none",
+                whiteSpace: "nowrap",
+                flexShrink: 0,
+              }}
+            >
+              View →
+            </Link>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <style>{`
         @media (max-width: 768px) {

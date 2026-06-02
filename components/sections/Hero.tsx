@@ -132,7 +132,7 @@ export default function Hero() {
               onClick={(e) => {
                 e.preventDefault();
                 const el = document.getElementById("income");
-                if (el) window.scrollTo({ top: el.offsetTop + 50, behavior: "smooth" });
+                if (el) window.scrollTo({ top: el.offsetTop - 55, behavior: "smooth" });
               }}
             >
               See my work →

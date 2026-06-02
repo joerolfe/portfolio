@@ -80,8 +80,9 @@ export default function StatsStrip() {
           0%, 100% { opacity: 1; transform: scale(1); }
           50% { opacity: 0.4; transform: scale(0.7); }
         }
-        @media (max-width: 480px) {
-          .stats-grid { grid-template-columns: 1fr !important; }
+        @media (max-width: 640px) {
+          .stats-grid { grid-template-columns: repeat(3, 1fr) !important; padding: 1.25rem 1rem !important; gap: 0.5rem !important; }
+          .stats-grid > div { padding: 0.85rem 0.5rem !important; border-radius: 12px !important; }
         }
       `}</style>
     </div>

@@ -136,23 +136,8 @@ export default function AcademicPage() {
         </motion.div>
       </Section>
 
-      {/* Uni */}
-      <Section bg="var(--bg)">
-        <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} style={{ maxWidth: "700px", margin: "0 auto", padding: "0 2rem", textAlign: "center" }}>
-          <motion.div variants={itemVariants}>
-            <span className="section-label">Sept 2026</span>
-            <h2 style={{ fontWeight: 800, fontSize: "clamp(1.6rem, 3vw, 2.2rem)", letterSpacing: "-0.03em", color: "var(--text)", margin: "0.5rem 0 1rem" }}>
-              Staffordshire University
-            </h2>
-            <p style={{ fontSize: "0.95rem", color: "var(--muted)", lineHeight: 1.8 }}>
-              Starting a Cyber Security BSc in September 2026, running through to 2029. The foundation is already there — nine certs, two years of hands-on programming, and a real understanding of how systems and threats work. The degree formalises it.
-            </p>
-          </motion.div>
-        </motion.div>
-      </Section>
-
       {/* College */}
-      <Section bg="var(--bg2)">
+      <Section bg="var(--bg)">
         <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 2rem" }}>
           <motion.div variants={itemVariants}>
             <span className="section-label">2024 – 2026</span>
@@ -182,6 +167,21 @@ export default function AcademicPage() {
               ))}
             </motion.div>
           </div>
+        </motion.div>
+      </Section>
+
+      {/* Uni */}
+      <Section bg="var(--bg)">
+        <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} style={{ maxWidth: "700px", margin: "0 auto", padding: "0 2rem", textAlign: "center" }}>
+          <motion.div variants={itemVariants}>
+            <span className="section-label">Sept 2026</span>
+            <h2 style={{ fontWeight: 800, fontSize: "clamp(1.6rem, 3vw, 2.2rem)", letterSpacing: "-0.03em", color: "var(--text)", margin: "0.5rem 0 1rem" }}>
+              Staffordshire University
+            </h2>
+            <p style={{ fontSize: "0.95rem", color: "var(--muted)", lineHeight: 1.8 }}>
+              Starting a Cyber Security BSc in September 2026, running through to 2029. The foundation is already there — nine certs, two years of hands-on programming, and a real understanding of how systems and threats work. The degree formalises it.
+            </p>
+          </motion.div>
         </motion.div>
       </Section>
 
