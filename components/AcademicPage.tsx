@@ -2,6 +2,7 @@
 
 import { motion, type Variants } from "framer-motion";
 import Skills from "@/components/sections/Skills";
+import CertCarousel from "@/components/CertCarousel";
 
 const itemVariants: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -197,6 +198,7 @@ export default function AcademicPage() {
               <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--accent)", background: "rgba(196,98,45,0.1)", border: "1px solid rgba(196,98,45,0.2)", borderRadius: "999px", padding: "0.15rem 0.65rem" }}>9</span>
             </h2>
           </motion.div>
+          {/* Desktop grid */}
           <motion.div variants={containerVariants} style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem" }} className="cert-grid">
             {certs.map((cert) => (
               <motion.div
@@ -212,6 +214,11 @@ export default function AcademicPage() {
               </motion.div>
             ))}
           </motion.div>
+
+          {/* Mobile carousel */}
+          <div className="cert-scroll">
+            <CertCarousel certs={certs} />
+          </div>
         </motion.div>
       </Section>
 
@@ -313,15 +320,15 @@ export default function AcademicPage() {
 
 
       <style>{`
+        .cert-scroll { display: none; }
+
         @media (max-width: 768px) {
           .academic-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
-          .cert-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .cert-grid { display: none !important; }
+          .cert-scroll { display: block; }
           .cyber-grid { grid-template-columns: 1fr !important; }
           .github-callout { flex-direction: column !important; align-items: flex-start !important; padding: 1.5rem !important; }
           .github-callout span { width: 100% !important; justify-content: center !important; }
-        }
-        @media (max-width: 480px) {
-          .cert-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </div>

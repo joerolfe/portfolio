@@ -81,8 +81,8 @@ const chapters = [
     highlight: "Real clients, real work, before uni.",
     card: {
       type: "screenshot",
-      href: "https://myagency-nine.vercel.app/",
-      site: "myagency-nine.vercel.app",
+      href: "https://rolfebrandscaling.com",
+      site: "rolfebrandscaling.com",
       screenshot: "/agency-preview.png",
     },
   },
@@ -139,6 +139,7 @@ export default function AboutTimeline() {
           padding: "5rem 2rem 4rem",
           textAlign: "center",
         }}
+        className="about-hero"
       >
         <motion.span
           className="section-label"
@@ -190,6 +191,7 @@ export default function AboutTimeline() {
           padding: "0 2rem 8rem",
           position: "relative",
         }}
+        className="timeline-outer"
       >
         {/* Center vertical line */}
         <div
@@ -232,6 +234,7 @@ export default function AboutTimeline() {
             borderRadius: "16px",
             padding: "1.25rem 2rem",
           }}
+          className="about-crosslink"
         >
           <div style={{ textAlign: "left" }}>
             <p style={{ fontWeight: 700, fontSize: "0.88rem", color: "var(--text)", margin: 0 }}>Want the academic breakdown?</p>
@@ -266,6 +269,19 @@ export default function AboutTimeline() {
           .timeline-line { display: none; }
           .timeline-dot { display: none; }
           .screenshot-col { margin-right: 0 !important; padding-left: 0 !important; }
+          .screenshot-entry {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 1.25rem !important;
+            margin-bottom: 2.5rem !important;
+            padding-left: 1rem !important;
+            border-left: 2px solid var(--border) !important;
+          }
+          .screenshot-entry > div { padding: 0 !important; }
+          .timeline-outer { padding: 0 1.25rem 4rem !important; }
+          .about-hero { padding: 3rem 1.25rem 2.5rem !important; }
+          .about-crosslink { flex-direction: column !important; gap: 0.75rem !important; text-align: left !important; }
+          .about-crosslink a { width: 100% !important; justify-content: center !important; }
         }
       `}</style>
     </div>
@@ -288,7 +304,7 @@ function ScreenshotEntry({
       viewport={{ once: true, amount: 0.15 }}
       variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12 } } }}
       style={{ display: "grid", gridTemplateColumns: "1fr 40px 1fr", gap: "0", marginBottom: "6rem", alignItems: "center" }}
-      className="timeline-entry"
+      className="timeline-entry screenshot-entry"
     >
       {/* Left — text */}
       <div style={{ paddingRight: "2.5rem" }}>
@@ -418,13 +434,16 @@ function TimelineEntry({
           .timeline-entry {
             display: flex !important;
             flex-direction: column !important;
-            gap: 1.5rem !important;
-            margin-bottom: 3.5rem !important;
+            gap: 1.25rem !important;
+            margin-bottom: 2.5rem !important;
+            padding-left: 1rem !important;
+            border-left: 2px solid var(--border) !important;
           }
           .timeline-col-dot { display: none !important; }
-          .timeline-col-text { order: 1; padding: 0 !important; }
-          .timeline-col-card { order: 2; padding: 0 !important; }
-          .timeline-heading { text-align: left !important; }
+          .timeline-col-text { order: 1; padding: 0 !important; width: 100% !important; }
+          .timeline-col-card { order: 2; padding: 0 !important; width: 100% !important; }
+          .timeline-col-card > div { width: 100% !important; }
+          .timeline-heading { text-align: left !important; font-size: 1.25rem !important; }
           .timeline-para { text-align: left !important; }
           .timeline-blockquote { text-align: left !important; border-left: 3px solid var(--accent) !important; border-right: none !important; padding-left: 1rem !important; padding-right: 0 !important; }
         }
@@ -583,16 +602,13 @@ function CardContent({ chapter }: { chapter: (typeof chapters)[0] }) {
     >
       {/* GCSE grades card */}
       {card.type === "gcse" && "items" in card && (
-        <div style={{ background: "var(--bg2)", border: "1px solid var(--border)", borderRadius: "16px", padding: "1.75rem" }}>
+        <div style={{ background: "var(--bg)", border: "1px solid var(--border)", borderRadius: "16px", padding: "1.25rem", width: "100%" }}>
           <p style={{ fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--accent)", marginBottom: "1rem" }}>GCSE Results</p>
           <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
             {(card as { type: string; items: { label: string; value: string }[] }).items.map((item, i) => (
-              <div key={item.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.65rem 0", borderBottom: i < (card as { type: string; items: { label: string; value: string }[] }).items.length - 1 ? "1px solid var(--border)" : "none" }}>
-                <span style={{ fontSize: "0.78rem", color: "var(--muted)" }}>{item.label}</span>
-                <span style={{
-                  fontSize: "0.82rem", fontWeight: 700,
-                  color: item.value === "9" || item.value === "8" ? "var(--accent)" : "var(--text)",
-                }}>{item.value}</span>
+              <div key={item.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1rem", padding: "0.65rem 0", borderBottom: i < (card as { type: string; items: { label: string; value: string }[] }).items.length - 1 ? "1px solid var(--border)" : "none" }}>
+                <span style={{ fontSize: "0.78rem", color: "var(--muted)", flexShrink: 0 }}>{item.label}</span>
+                <span style={{ fontSize: "0.82rem", fontWeight: 700, color: item.value === "9" || item.value === "8" ? "var(--accent)" : "var(--text)" }}>{item.value}</span>
               </div>
             ))}
           </div>
@@ -624,12 +640,12 @@ function CardContent({ chapter }: { chapter: (typeof chapters)[0] }) {
       {card.type === "stat" && "items" in card && (() => {
         const statCard = card as { type: string; items: { label: string; value: string }[]; display?: string; preview?: { href: string; site: string; screenshot: string } };
         return (
-          <div style={{ background: "var(--bg2)", border: "1px solid var(--border)", borderRadius: "16px", padding: "1.75rem" }}>
+          <div style={{ background: "var(--bg)", border: "1px solid var(--border)", borderRadius: "16px", padding: "1.25rem", width: "100%" }}>
             {statCard.display === "pills" ? (
               <>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
                   {statCard.items.map((item) => (
-                    <div key={item.label} style={{ display: "flex", flexDirection: "column", gap: "0.1rem", background: "var(--bg)", border: "1px solid var(--border)", borderRadius: "10px", padding: "0.6rem 0.9rem", flex: "1 1 calc(50% - 0.25rem)" }}>
+                    <div key={item.label} style={{ display: "flex", flexDirection: "column", gap: "0.1rem", background: "var(--bg2)", border: "1px solid var(--border)", borderRadius: "10px", padding: "0.6rem 0.9rem", flex: "1 1 calc(50% - 0.25rem)" }}>
                       <span style={{ fontSize: "0.65rem", fontWeight: 600, color: "var(--accent)", textTransform: "uppercase", letterSpacing: "0.07em" }}>{item.label}</span>
                       <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "var(--text)" }}>{item.value}</span>
                     </div>
@@ -644,9 +660,9 @@ function CardContent({ chapter }: { chapter: (typeof chapters)[0] }) {
             ) : (
               <>
                 {statCard.items.map((item, i) => (
-                  <div key={item.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.75rem 0", borderBottom: i < statCard.items.length - 1 ? "1px solid var(--border)" : "none" }}>
-                    <span style={{ fontSize: "0.78rem", color: "var(--muted)" }}>{item.label}</span>
-                    <span style={{ fontSize: "0.82rem", fontWeight: 700, color: "var(--text)" }}>{item.value}</span>
+                  <div key={item.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1rem", padding: "0.75rem 0", borderBottom: i < statCard.items.length - 1 ? "1px solid var(--border)" : "none" }}>
+                    <span style={{ fontSize: "0.78rem", color: "var(--muted)", flexShrink: 0 }}>{item.label}</span>
+                    <span style={{ fontSize: "0.82rem", fontWeight: 700, color: "var(--text)", textAlign: "right" }}>{item.value}</span>
                   </div>
                 ))}
                 {statCard.preview && (
