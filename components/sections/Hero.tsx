@@ -126,7 +126,15 @@ export default function Hero() {
             className="hero-buttons"
             style={{ display: "flex", alignItems: "center", gap: "1.25rem", flexWrap: "wrap" }}
           >
-            <a href="#projects" className="btn-primary">
+            <a
+              href="#income"
+              className="btn-primary"
+              onClick={(e) => {
+                e.preventDefault();
+                const el = document.getElementById("income");
+                if (el) window.scrollTo({ top: el.offsetTop + 50, behavior: "smooth" });
+              }}
+            >
               See my work →
             </a>
             <Link href="/about" className="btn-ghost">

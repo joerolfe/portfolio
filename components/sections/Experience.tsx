@@ -10,7 +10,7 @@ const techExperiences = [
     type: "Self-employed",
     period: "Apr 2026 – Present",
     description: "Founded and run a digital agency helping local businesses grow online. Build websites, AI automations, and brand strategies end-to-end.",
-    link: "https://myagency-nine.vercel.app/",
+    link: "https://rolfebrandscaling.com",
   },
   {
     role: "Founder & Content Creator",

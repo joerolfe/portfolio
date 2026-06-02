@@ -8,7 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 const navLinks = [
   { label: "About", href: "/about" },
   { label: "Academic", href: "/academic" },
-  { label: "Projects", href: "/#projects" },
+  { label: "Income", href: "/#income" },
   { label: "Experience", href: "/#experience" },
 ];
 // Skills + Certifications live on /academic, not the homepage
@@ -68,6 +68,7 @@ export default function Nav() {
         {/* Logo */}
         <Link
           href="/"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           style={{
             fontWeight: 700,
             fontSize: "0.85rem",
@@ -84,17 +85,13 @@ export default function Nav() {
               width: "26px",
               height: "26px",
               borderRadius: "50%",
-              background: "var(--accent)",
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#fff",
-              fontSize: "0.65rem",
-              fontWeight: 700,
+              overflow: "hidden",
               flexShrink: 0,
+              border: "1.5px solid var(--border)",
             }}
           >
-            JR
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/joseph.jpg.PNG" alt="Joseph Rolfe" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
           </span>
           Joseph Rolfe
         </Link>
@@ -180,17 +177,13 @@ export default function Nav() {
               width: "26px",
               height: "26px",
               borderRadius: "50%",
-              background: "var(--accent)",
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#fff",
-              fontSize: "0.65rem",
-              fontWeight: 700,
+              overflow: "hidden",
               flexShrink: 0,
+              border: "1.5px solid var(--border)",
             }}
           >
-            JR
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/joseph.jpg.PNG" alt="Joseph Rolfe" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
           </span>
           Joseph Rolfe
         </Link>

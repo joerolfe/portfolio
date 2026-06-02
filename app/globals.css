@@ -5,6 +5,10 @@
   --font-heading: var(--font-inter);
 }
 
+html {
+  zoom: 0.9;
+}
+
 :root {
   --bg:      #f2ede6;
   --bg2:     #ece7df;
