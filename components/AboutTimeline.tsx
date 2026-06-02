@@ -294,58 +294,8 @@ export default function AboutTimeline() {
         ))}
       </div>
 
-      {/* Floating academic callout */}
-      <AnimatePresence>
-        {showCallout && (
-          <motion.div
-            initial={{ opacity: 0, x: 40, scale: 0.92 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, x: 40, scale: 0.92 }}
-            transition={{ type: "spring", stiffness: 300, damping: 28 }}
-            style={{
-              position: "fixed",
-              bottom: "2rem",
-              right: "2rem",
-              zIndex: 50,
-              background: "rgba(242,237,230,0.95)",
-              backdropFilter: "blur(14px)",
-              WebkitBackdropFilter: "blur(14px)",
-              border: "1px solid var(--border)",
-              borderRadius: "16px",
-              padding: "1rem 1.25rem",
-              boxShadow: "0 8px 32px rgba(0,0,0,0.10)",
-              display: "flex",
-              alignItems: "center",
-              gap: "1rem",
-              maxWidth: "320px",
-            }}
-          >
-            <div>
-              <p style={{ fontWeight: 700, fontSize: "0.82rem", color: "var(--text)", margin: 0, lineHeight: 1.3 }}>Want the academic breakdown?</p>
-              <p style={{ fontSize: "0.75rem", color: "var(--muted)", margin: "0.2rem 0 0" }}>GCSEs, certs, and skills in one place.</p>
-            </div>
-            <Link
-              href="/academic"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.3rem",
-                fontSize: "0.78rem",
-                fontWeight: 600,
-                color: "#fff",
-                background: "var(--accent)",
-                padding: "0.5rem 0.9rem",
-                borderRadius: "999px",
-                textDecoration: "none",
-                whiteSpace: "nowrap",
-                flexShrink: 0,
-              }}
-            >
-              View →
-            </Link>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Academic pill tab — always visible on all screen sizes */}
+      <MobilePillTab />
 
       <style>{`
         @media (max-width: 768px) {
@@ -368,6 +318,114 @@ export default function AboutTimeline() {
         }
       `}</style>
     </div>
+  );
+}
+
+function MobilePillTab() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [open]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: 60 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 60 }}
+      transition={{ type: "spring", stiffness: 300, damping: 28 }}
+      className="academic-callout-mobile"
+      style={{
+        position: "fixed",
+        right: 0,
+        top: "50%",
+        transform: "translateY(-50%)",
+        zIndex: 50,
+      }}
+      ref={ref}
+    >
+      {/* Expanded panel */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, x: 20, scale: 0.95 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 20, scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 320, damping: 28 }}
+            style={{
+              position: "absolute",
+              right: "100%",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "rgba(242,237,230,0.97)",
+              backdropFilter: "blur(14px)",
+              WebkitBackdropFilter: "blur(14px)",
+              border: "1px solid var(--border)",
+              borderRadius: "14px",
+              padding: "1rem 1rem 1rem 1.1rem",
+              boxShadow: "-4px 4px 24px rgba(0,0,0,0.10)",
+              width: "220px",
+              marginRight: "0.5rem",
+            }}
+          >
+            <p style={{ fontWeight: 700, fontSize: "0.82rem", color: "var(--text)", margin: "0 0 0.25rem", lineHeight: 1.3 }}>
+              Academic breakdown
+            </p>
+            <p style={{ fontSize: "0.72rem", color: "var(--muted)", margin: "0 0 0.85rem", lineHeight: 1.5 }}>
+              GCSEs, certs, and skills in one place.
+            </p>
+            <Link
+              href="/academic"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.3rem",
+                fontSize: "0.78rem",
+                fontWeight: 600,
+                color: "#fff",
+                background: "var(--accent)",
+                padding: "0.45rem 0.9rem",
+                borderRadius: "999px",
+                textDecoration: "none",
+              }}
+            >
+              View Academic →
+            </Link>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Pill tab — hidden when open */}
+      {!open && (
+        <button
+          onClick={() => setOpen(true)}
+          style={{
+            background: "rgba(242,237,230,0.95)",
+            border: "1px solid var(--border)",
+            borderRight: "none",
+            borderRadius: "8px 0 0 8px",
+            padding: "0.75rem 0.5rem",
+            cursor: "pointer",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "0.3rem",
+            boxShadow: "-2px 2px 12px rgba(0,0,0,0.08)",
+          }}
+        >
+          <span style={{ fontSize: "0.62rem", fontWeight: 700, color: "var(--accent)", letterSpacing: "0.06em", textTransform: "uppercase", writingMode: "vertical-rl", textOrientation: "mixed", transform: "rotate(180deg)", lineHeight: 1 }}>
+            Academic
+          </span>
+          <span style={{ fontSize: "0.7rem", color: "var(--muted)" }}>→</span>
+        </button>
+      )}
+    </motion.div>
   );
 }
 
