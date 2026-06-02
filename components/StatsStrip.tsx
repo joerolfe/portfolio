@@ -3,30 +3,15 @@
 import { motion, type Variants } from "framer-motion";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
-const current = [
-  {
-    label: "Running",
-    name: "Rolfe Brand Scaling",
-    detail: "Digital agency · Live",
-    dot: true,
-  },
-  {
-    label: "Running",
-    name: "TikTok Shop & Automation",
-    detail: "Social media · Autopilot",
-    dot: true,
-  },
-  {
-    label: "Running",
-    name: "FluxFUT",
-    detail: "Content brand · Live",
-    dot: true,
-  },
+const stats = [
+  { value: "£1k+", label: "earned online / month" },
+  { value: "3", label: "clients on Brand Scaling" },
+  { value: "20k+", label: "followers on FluxFUT" },
 ];
 
 const containerVariants: Variants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
+  visible: { transition: { staggerChildren: 0.12 } },
 };
 
 const itemVariants: Variants = {
@@ -50,54 +35,42 @@ export default function StatsStrip() {
         variants={containerVariants}
         initial="hidden"
         animate={isVisible ? "visible" : "hidden"}
-        className="currently-strip"
         style={{
           maxWidth: "1100px",
           margin: "0 auto",
-          padding: "1.25rem 1.25rem",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "0.5rem",
-          flexWrap: "wrap",
+          padding: "2rem 1.25rem",
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gap: "1rem",
         }}
+        className="stats-grid"
       >
-        <span style={{ fontSize: "0.72rem", fontWeight: 600, color: "var(--muted)", letterSpacing: "0.08em", textTransform: "uppercase", marginRight: "0.75rem", flexShrink: 0, display: "flex", alignItems: "center", gap: "0.4rem" }}>
-          <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "var(--accent)", display: "inline-block", animation: "pulse-dot 2s ease-in-out infinite" }} />
-          Right now
-        </span>
-
-        {current.map((item, i) => (
-          <motion.div key={item.name} variants={itemVariants} className="currently-item" style={{ display: "flex", alignItems: "center", gap: "0.5rem", width: "auto" }}>
-            <div
-              className="currently-pill"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.6rem",
-                background: "var(--bg)",
-                border: "1px solid var(--border)",
-                borderRadius: "999px",
-                padding: "0.45rem 0.9rem",
-                width: "100%",
-              }}
-            >
-              <span
-                style={{
-                  width: "6px",
-                  height: "6px",
-                  borderRadius: "50%",
-                  background: "var(--accent)",
-                  flexShrink: 0,
-                  animation: "pulse-dot 2s ease-in-out infinite",
-                }}
-              />
-              <span style={{ fontSize: "0.82rem", fontWeight: 600, color: "var(--text)" }}>{item.name}</span>
-              <span style={{ fontSize: "0.75rem", color: "var(--muted)" }}>{item.detail}</span>
-            </div>
-            {i < current.length - 1 && (
-              <span className="dot-sep" style={{ color: "var(--muted)", fontSize: "1rem", userSelect: "none", opacity: 0.4 }}>·</span>
+        {stats.map((stat, i) => (
+          <motion.div
+            key={stat.label}
+            variants={itemVariants}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "0.25rem",
+              padding: "1.25rem",
+              background: "var(--bg)",
+              border: "1px solid var(--border)",
+              borderRadius: "16px",
+              textAlign: "center",
+              position: "relative",
+            }}
+          >
+            {i === 0 && (
+              <span style={{ position: "absolute", top: "0.75rem", right: "0.75rem", width: "6px", height: "6px", borderRadius: "50%", background: "var(--accent)", animation: "pulse-dot 2s ease-in-out infinite" }} />
             )}
+            <span style={{ fontWeight: 800, fontSize: "clamp(1.8rem, 4vw, 2.4rem)", letterSpacing: "-0.04em", color: "var(--text)", lineHeight: 1 }}>
+              {stat.value}
+            </span>
+            <span style={{ fontSize: "0.8rem", color: "var(--muted)", fontWeight: 500 }}>
+              {stat.label}
+            </span>
           </motion.div>
         ))}
       </motion.div>
@@ -107,11 +80,8 @@ export default function StatsStrip() {
           0%, 100% { opacity: 1; transform: scale(1); }
           50% { opacity: 0.4; transform: scale(0.7); }
         }
-        @media (max-width: 640px) {
-          .currently-strip { gap: 0.4rem !important; }
-          .dot-sep { display: none !important; }
-          .currently-item { width: 100% !important; }
-          .currently-pill { width: 100% !important; }
+        @media (max-width: 480px) {
+          .stats-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </div>

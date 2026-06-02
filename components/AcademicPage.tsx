@@ -43,6 +43,41 @@ const certs = [
   { name: "Computer Hardware Basics", issuer: "Cisco", year: "2026", link: "https://www.credly.com/badges/b1e99398-9b2f-42fe-8c18-fca82782e723" },
 ];
 
+const cyberProjects = [
+  {
+    title: "Home Lab",
+    icon: "🖥️",
+    description:
+      "Built a personal home lab running Proxmox as the hypervisor with multiple VMs — including a pfSense firewall, a vulnerable Windows machine, and a Kali Linux attack box. Used for practising network segmentation, firewall rules, and controlled attack simulations in a safe environment.",
+    tags: ["Proxmox", "pfSense", "Kali Linux", "Networking", "Virtualisation"],
+    status: "Ongoing",
+  },
+  {
+    title: "CTF Challenges",
+    icon: "🚩",
+    description:
+      "Regularly working through Capture the Flag challenges on TryHackMe and Hack The Box. Covering web exploitation, privilege escalation, reverse engineering, and forensics. Applying the theory from Cisco certs to real attack/defence scenarios.",
+    tags: ["TryHackMe", "Hack The Box", "Web Exploitation", "Privilege Escalation"],
+    status: "Active",
+  },
+  {
+    title: "Network Traffic Analysis",
+    icon: "📡",
+    description:
+      "Using Wireshark to capture and analyse network traffic on the home lab. Identified common attack patterns — ARP spoofing, port scans, suspicious DNS queries — and practised writing detection rules.",
+    tags: ["Wireshark", "Packet Analysis", "IDS", "Threat Detection"],
+    status: "Practice",
+  },
+  {
+    title: "Scripting & Automation",
+    icon: "🐍",
+    description:
+      "Written Python scripts for security tasks: port scanners, brute-force simulators, log parsers, and basic automation of repetitive recon tasks. Ties directly into the programming side of my course.",
+    tags: ["Python", "Automation", "Recon", "Scripting"],
+    status: "Ongoing",
+  },
+];
+
 export default function AcademicPage() {
   return (
     <div style={{ background: "var(--bg)" }}>
@@ -100,8 +135,23 @@ export default function AcademicPage() {
         </motion.div>
       </Section>
 
-      {/* College */}
+      {/* Uni */}
       <Section bg="var(--bg)">
+        <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} style={{ maxWidth: "700px", margin: "0 auto", padding: "0 2rem", textAlign: "center" }}>
+          <motion.div variants={itemVariants}>
+            <span className="section-label">Sept 2026</span>
+            <h2 style={{ fontWeight: 800, fontSize: "clamp(1.6rem, 3vw, 2.2rem)", letterSpacing: "-0.03em", color: "var(--text)", margin: "0.5rem 0 1rem" }}>
+              Staffordshire University
+            </h2>
+            <p style={{ fontSize: "0.95rem", color: "var(--muted)", lineHeight: 1.8 }}>
+              Starting a Cyber Security BSc in September 2026, running through to 2029. The foundation is already there — nine certs, two years of hands-on programming, and a real understanding of how systems and threats work. The degree formalises it.
+            </p>
+          </motion.div>
+        </motion.div>
+      </Section>
+
+      {/* College */}
+      <Section bg="var(--bg2)">
         <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 2rem" }}>
           <motion.div variants={itemVariants}>
             <span className="section-label">2024 – 2026</span>
@@ -165,25 +215,110 @@ export default function AcademicPage() {
         </motion.div>
       </Section>
 
-      {/* Next */}
+      {/* Cyber Projects */}
       <Section bg="var(--bg2)">
-        <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} style={{ maxWidth: "700px", margin: "0 auto", padding: "0 2rem", textAlign: "center" }}>
+        <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.15 }} style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 2rem" }}>
           <motion.div variants={itemVariants}>
-            <span className="section-label">Sept 2026</span>
-            <h2 style={{ fontWeight: 800, fontSize: "clamp(1.6rem, 3vw, 2.2rem)", letterSpacing: "-0.03em", color: "var(--text)", margin: "0.5rem 0 1rem" }}>
-              Staffordshire University
+            <span className="section-label">Hands-on</span>
+            <h2 style={{ fontWeight: 800, fontSize: "clamp(1.6rem, 3vw, 2.2rem)", letterSpacing: "-0.03em", color: "var(--text)", margin: "0.5rem 0 2rem" }}>
+              Cyber Projects
             </h2>
-            <p style={{ fontSize: "0.95rem", color: "var(--muted)", lineHeight: 1.8 }}>
-              Starting a Cyber Security BSc in September 2026. The foundation is already there — nine certs, two years of hands-on programming, and a real understanding of how systems and threats work. The degree formalises it.
-            </p>
+          </motion.div>
+          <motion.div variants={containerVariants} style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "1.25rem" }} className="cyber-grid">
+            {cyberProjects.map((project) => (
+              <motion.div
+                key={project.title}
+                variants={itemVariants}
+                style={{ background: "var(--bg)", border: "1px solid var(--border)", borderRadius: "16px", padding: "1.75rem", display: "flex", flexDirection: "column", gap: "0.85rem", position: "relative", overflow: "hidden" }}
+              >
+                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "3px", background: "var(--accent)", borderRadius: "16px 16px 0 0" }} />
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                  <span style={{ fontSize: "1.6rem" }}>{project.icon}</span>
+                  <span style={{ fontSize: "0.65rem", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--accent)", background: "rgba(196,98,45,0.1)", borderRadius: "999px", padding: "0.2rem 0.6rem" }}>
+                    {project.status}
+                  </span>
+                </div>
+                <div>
+                  <h3 style={{ fontWeight: 700, fontSize: "1.05rem", color: "var(--text)", letterSpacing: "-0.02em", marginBottom: "0.35rem" }}>{project.title}</h3>
+                  <p style={{ fontSize: "0.85rem", color: "var(--muted)", lineHeight: 1.75 }}>{project.description}</p>
+                </div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.35rem", marginTop: "auto" }}>
+                  {project.tags.map((tag) => (
+                    <span key={tag} className="skill-tag" style={{ fontSize: "0.7rem" }}>{tag}</span>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
           </motion.div>
         </motion.div>
       </Section>
+
+      {/* GitHub callout */}
+      <Section bg="var(--bg)">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 2rem" }}
+        >
+          <motion.a
+            variants={itemVariants}
+            href="https://github.com/joerolfe"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: "1.5rem",
+              background: "var(--bg2)",
+              border: "1px solid var(--border)",
+              borderRadius: "20px",
+              padding: "2rem 2.5rem",
+              textDecoration: "none",
+              transition: "box-shadow 0.2s ease, border-color 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 32px rgba(0,0,0,0.09)";
+              (e.currentTarget as HTMLElement).style.borderColor = "var(--accent)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.boxShadow = "none";
+              (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
+            }}
+            className="github-callout"
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "1.25rem" }}>
+              <div style={{ width: "48px", height: "48px", borderRadius: "14px", background: "var(--text)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                  <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
+                </svg>
+              </div>
+              <div>
+                <p style={{ fontWeight: 700, fontSize: "1.05rem", color: "var(--text)", letterSpacing: "-0.02em", marginBottom: "0.2rem" }}>
+                  See the code on GitHub
+                </p>
+                <p style={{ fontSize: "0.85rem", color: "var(--muted)", lineHeight: 1.5 }}>
+                  Scripts, projects, and experiments — everything I build gets pushed here.
+                </p>
+              </div>
+            </div>
+            <span style={{ fontSize: "0.82rem", fontWeight: 600, color: "var(--accent)", whiteSpace: "nowrap", display: "flex", alignItems: "center", gap: "0.3rem", padding: "0.5rem 1.1rem", border: "1px solid rgba(196,98,45,0.3)", borderRadius: "999px", flexShrink: 0 }}>
+              github.com/joerolfe ↗
+            </span>
+          </motion.a>
+        </motion.div>
+      </Section>
+
 
       <style>{`
         @media (max-width: 768px) {
           .academic-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
           .cert-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .cyber-grid { grid-template-columns: 1fr !important; }
+          .github-callout { flex-direction: column !important; align-items: flex-start !important; padding: 1.5rem !important; }
+          .github-callout span { width: 100% !important; justify-content: center !important; }
         }
         @media (max-width: 480px) {
           .cert-grid { grid-template-columns: 1fr !important; }

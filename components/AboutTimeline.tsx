@@ -87,6 +87,25 @@ const chapters = [
     },
   },
   {
+    period: "May 2026",
+    title: "TikTok Shop & Automation",
+    side: "right",
+    body: [
+      "While the agency was growing, I was building passive income on the side. I set up a TikTok Shop with automated product fulfilment — content drives traffic, orders get handled, money comes in without daily input.",
+      "Alongside that, I run automated social media accounts across TikTok, Instagram, and YouTube. Content scheduling, growth systems, audience funnels — all built to run without me having to babysit them.",
+      "Income that works while I sleep.",
+    ],
+    highlight: "Income that works while I sleep.",
+    card: {
+      type: "stat",
+      items: [
+        { label: "Automation accounts", value: "3" },
+        { label: "Brands connected with", value: "2" },
+        { label: "Monthly online income", value: "£1k+" },
+      ],
+    },
+  },
+  {
     period: "2026 →",
     title: "What's Next",
     side: "right",

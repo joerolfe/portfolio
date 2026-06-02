@@ -139,135 +139,186 @@ export default function Nav() {
         </Link>
       </div>
 
-      {/* Mobile nav bar */}
-      <header
-        className="nav-mobile"
+      {/* Mobile pill nav */}
+      <div
+        className="nav-mobile-pill"
         style={{
           position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
+          top: "1.25rem",
+          left: "50%",
+          transform: "translateX(-50%)",
           zIndex: 100,
-          background: scrolled ? "rgba(242,237,230,0.95)" : "rgba(242,237,230,0.85)",
-          backdropFilter: "blur(12px)",
-          WebkitBackdropFilter: "blur(12px)",
-          borderBottom: "1px solid var(--border)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "0.45rem 0.45rem 0.45rem 0.75rem",
+          background: scrolled ? "rgba(242,237,230,0.92)" : "rgba(242,237,230,0.78)",
+          backdropFilter: "blur(16px)",
+          WebkitBackdropFilter: "blur(16px)",
+          borderRadius: "999px",
+          border: "1px solid var(--border)",
+          boxShadow: scrolled ? "0 4px 24px rgba(0,0,0,0.10)" : "0 2px 12px rgba(0,0,0,0.06)",
+          transition: "background 0.3s ease, box-shadow 0.3s ease",
+          width: "calc(100% - 2.5rem)",
+          maxWidth: "420px",
         }}
       >
-        <div
+        <Link
+          href="/"
           style={{
-            padding: "0 1.25rem",
-            height: "56px",
+            fontWeight: 700,
+            fontSize: "0.85rem",
+            color: "var(--text)",
+            letterSpacing: "-0.02em",
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
+            gap: "0.4rem",
           }}
         >
-          <Link
-            href="/"
+          <span
             style={{
-              fontWeight: 700,
-              fontSize: "0.9rem",
-              color: "var(--text)",
-              letterSpacing: "-0.02em",
-              display: "flex",
+              width: "26px",
+              height: "26px",
+              borderRadius: "50%",
+              background: "var(--accent)",
+              display: "inline-flex",
               alignItems: "center",
-              gap: "0.4rem",
+              justifyContent: "center",
+              color: "#fff",
+              fontSize: "0.65rem",
+              fontWeight: 700,
+              flexShrink: 0,
             }}
           >
-            <span
-              style={{
-                width: "26px",
-                height: "26px",
-                borderRadius: "50%",
-                background: "var(--accent)",
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#fff",
-                fontSize: "0.65rem",
-                fontWeight: 700,
-              }}
-            >
-              JR
-            </span>
-            Joseph Rolfe
-          </Link>
+            JR
+          </span>
+          Joseph Rolfe
+        </Link>
 
-          <button
-            onClick={() => setOpen((o) => !o)}
-            aria-label="Toggle menu"
+        <button
+          onClick={() => setOpen((o) => !o)}
+          aria-label="Toggle menu"
+          style={{
+            background: open ? "var(--accent)" : "rgba(0,0,0,0.06)",
+            border: "none",
+            color: open ? "#fff" : "var(--text)",
+            cursor: "pointer",
+            width: "34px",
+            height: "34px",
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexShrink: 0,
+            transition: "background 0.2s ease, color 0.2s ease",
+            fontSize: "0.75rem",
+            fontWeight: 700,
+          }}
+        >
+          {open ? "✕" : "≡"}
+        </button>
+      </div>
+
+      {/* Full-screen overlay menu */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.18 }}
             style={{
-              background: "none",
-              border: "none",
-              color: "var(--text)",
-              fontSize: "1.3rem",
-              cursor: "pointer",
-              padding: "0.25rem",
-              lineHeight: 1,
+              position: "fixed",
+              inset: 0,
+              zIndex: 99,
+              background: "rgba(242,237,230,0.97)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "0.5rem",
             }}
           >
-            {open ? "✕" : "☰"}
-          </button>
-        </div>
-
-        <AnimatePresence>
-          {open && (
             <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.22, ease: "easeInOut" }}
-              style={{
-                overflow: "hidden",
-                borderTop: "1px solid var(--border)",
-                background: "var(--bg)",
-              }}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 8 }}
+              transition={{ duration: 0.22, delay: 0.05 }}
+              style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.35rem", width: "100%", padding: "0 2rem" }}
             >
-              <div style={{ padding: "1.25rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
-                {navLinks.map((link) =>
-                  !link.href.startsWith("/#") ? (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      onClick={() => setOpen(false)}
-                      style={{ fontWeight: 500, fontSize: "0.95rem", color: "var(--muted)" }}
-                    >
-                      {link.label}
-                    </Link>
-                  ) : (
-                    <button
-                      key={link.href}
-                      onClick={() => handleClick(link.href)}
-                      style={{
-                        background: "none",
-                        border: "none",
-                        fontWeight: 500,
-                        fontSize: "0.95rem",
-                        color: "var(--muted)",
-                        textAlign: "left",
-                        cursor: "pointer",
-                        padding: 0,
-                      }}
-                    >
-                      {link.label}
-                    </button>
-                  )
-                )}
-              </div>
+              {navLinks.map((link) =>
+                !link.href.startsWith("/#") ? (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    style={{
+                      fontWeight: 700,
+                      fontSize: "clamp(1.6rem, 6vw, 2.2rem)",
+                      color: pathname === link.href ? "var(--accent)" : "var(--text)",
+                      letterSpacing: "-0.03em",
+                      textAlign: "center",
+                      padding: "0.4rem 0",
+                      width: "100%",
+                    }}
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <button
+                    key={link.href}
+                    onClick={() => handleClick(link.href)}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      fontWeight: 700,
+                      fontSize: "clamp(1.6rem, 6vw, 2.2rem)",
+                      color: "var(--text)",
+                      letterSpacing: "-0.03em",
+                      textAlign: "center",
+                      cursor: "pointer",
+                      padding: "0.4rem 0",
+                      width: "100%",
+                    }}
+                  >
+                    {link.label}
+                  </button>
+                )
+              )}
+
+              <Link
+                href="/#contact"
+                onClick={() => handleClick("/#contact")}
+                style={{
+                  marginTop: "1.5rem",
+                  background: "var(--accent)",
+                  color: "#fff",
+                  fontWeight: 600,
+                  fontSize: "0.95rem",
+                  padding: "0.85rem 2.5rem",
+                  borderRadius: "999px",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.4rem",
+                }}
+              >
+                Get in touch →
+              </Link>
             </motion.div>
-          )}
-        </AnimatePresence>
-      </header>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <style>{`
         @media (min-width: 769px) {
           .nav-float { display: flex !important; }
-          .nav-mobile { display: none !important; }
+          .nav-mobile-pill { display: none !important; }
         }
         @media (max-width: 768px) {
           .nav-float { display: none !important; }
-          .nav-mobile { display: block !important; }
+          .nav-mobile-pill { display: flex !important; }
         }
       `}</style>
     </>
