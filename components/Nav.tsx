@@ -24,6 +24,11 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
   const handleClick = (href: string) => {
     setOpen(false);
     if (href.startsWith("/#")) {
@@ -139,135 +144,136 @@ export default function Nav() {
         </Link>
       </div>
 
-      {/* Mobile nav bar */}
-      <header
-        className="nav-mobile"
+      {/* Mobile floating pill — same pill but with hamburger replacing links */}
+      <div
+        className="nav-mobile-pill"
         style={{
           position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 100,
-          background: scrolled ? "rgba(242,237,230,0.95)" : "rgba(242,237,230,0.85)",
-          backdropFilter: "blur(12px)",
-          WebkitBackdropFilter: "blur(12px)",
-          borderBottom: "1px solid var(--border)",
+          top: "1.25rem",
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: 110,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "0.45rem 0.55rem 0.45rem 0.75rem",
+          background: scrolled ? "rgba(242,237,230,0.92)" : "rgba(242,237,230,0.78)",
+          backdropFilter: "blur(16px)",
+          WebkitBackdropFilter: "blur(16px)",
+          borderRadius: "999px",
+          border: "1px solid var(--border)",
+          boxShadow: scrolled ? "0 4px 24px rgba(0,0,0,0.10)" : "0 2px 12px rgba(0,0,0,0.06)",
+          transition: "background 0.3s ease, box-shadow 0.3s ease",
+          width: "calc(100% - 2.5rem)",
+          maxWidth: "420px",
         }}
       >
-        <div
+        <Link
+          href="/"
+          onClick={() => setOpen(false)}
           style={{
-            padding: "0 1.25rem",
-            height: "56px",
+            fontWeight: 700,
+            fontSize: "0.85rem",
+            color: "var(--text)",
+            letterSpacing: "-0.02em",
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
+            gap: "0.4rem",
           }}
         >
-          <Link
-            href="/"
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/joseph.jpg.PNG" alt="Joseph Rolfe" style={{ width: "26px", height: "26px", borderRadius: "50%", objectFit: "cover", objectPosition: "center top", flexShrink: 0, border: "1px solid var(--border)" }} />
+          Joseph Rolfe
+        </Link>
+
+        <button
+          onClick={() => setOpen((o) => !o)}
+          aria-label="Toggle menu"
+          style={{ background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "36px", height: "36px", gap: "5px", borderRadius: "999px", padding: 0 }}
+        >
+          <motion.span animate={{ rotate: open ? 45 : 0, y: open ? 7 : 0 }} transition={{ duration: 0.2 }} style={{ width: "16px", height: "1.5px", background: "var(--text)", borderRadius: "99px", display: "block", transformOrigin: "center" }} />
+          <motion.span animate={{ opacity: open ? 0 : 1 }} transition={{ duration: 0.15 }} style={{ width: "16px", height: "1.5px", background: "var(--text)", borderRadius: "99px", display: "block" }} />
+          <motion.span animate={{ rotate: open ? -45 : 0, y: open ? -7 : 0 }} transition={{ duration: 0.2 }} style={{ width: "16px", height: "1.5px", background: "var(--text)", borderRadius: "99px", display: "block", transformOrigin: "center" }} />
+        </button>
+      </div>
+
+      {/* Mobile full-screen overlay */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.22 }}
+            className="nav-mobile-overlay"
             style={{
-              fontWeight: 700,
-              fontSize: "0.9rem",
-              color: "var(--text)",
-              letterSpacing: "-0.02em",
+              position: "fixed",
+              inset: 0,
+              zIndex: 105,
+              background: "rgba(242,237,230,0.97)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
               display: "flex",
-              alignItems: "center",
-              gap: "0.4rem",
+              flexDirection: "column",
             }}
           >
-            <span
-              style={{
-                width: "26px",
-                height: "26px",
-                borderRadius: "50%",
-                background: "var(--accent)",
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#fff",
-                fontSize: "0.65rem",
-                fontWeight: 700,
-              }}
-            >
-              JR
-            </span>
-            Joseph Rolfe
-          </Link>
-
-          <button
-            onClick={() => setOpen((o) => !o)}
-            aria-label="Toggle menu"
-            style={{
-              background: "none",
-              border: "none",
-              color: "var(--text)",
-              fontSize: "1.3rem",
-              cursor: "pointer",
-              padding: "0.25rem",
-              lineHeight: 1,
-            }}
-          >
-            {open ? "✕" : "☰"}
-          </button>
-        </div>
-
-        <AnimatePresence>
-          {open && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.22, ease: "easeInOut" }}
-              style={{
-                overflow: "hidden",
-                borderTop: "1px solid var(--border)",
-                background: "var(--bg)",
-              }}
-            >
-              <div style={{ padding: "1.25rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
-                {navLinks.map((link) =>
-                  !link.href.startsWith("/#") ? (
+            {/* Links — centred */}
+            <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", padding: "0 2.5rem", gap: "0.25rem" }}>
+              {navLinks.map((link, i) => (
+                <motion.div
+                  key={link.href}
+                  initial={{ opacity: 0, y: 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.05 + i * 0.06, duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  {!link.href.startsWith("/#") ? (
                     <Link
-                      key={link.href}
                       href={link.href}
                       onClick={() => setOpen(false)}
-                      style={{ fontWeight: 500, fontSize: "0.95rem", color: "var(--muted)" }}
+                      style={{ display: "block", fontSize: "2.4rem", fontWeight: 800, letterSpacing: "-0.04em", color: pathname === link.href ? "var(--accent)" : "var(--text)", lineHeight: 1.2, padding: "0.3rem 0" }}
                     >
                       {link.label}
                     </Link>
                   ) : (
                     <button
-                      key={link.href}
                       onClick={() => handleClick(link.href)}
-                      style={{
-                        background: "none",
-                        border: "none",
-                        fontWeight: 500,
-                        fontSize: "0.95rem",
-                        color: "var(--muted)",
-                        textAlign: "left",
-                        cursor: "pointer",
-                        padding: 0,
-                      }}
+                      style={{ background: "none", border: "none", display: "block", fontSize: "2.4rem", fontWeight: 800, letterSpacing: "-0.04em", color: "var(--text)", lineHeight: 1.2, padding: "0.3rem 0", cursor: "pointer", textAlign: "left", width: "100%" }}
                     >
                       {link.label}
                     </button>
-                  )
-                )}
-              </div>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+
+            {/* CTA at bottom */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.28, duration: 0.35 }}
+              style={{ padding: "2rem 2.5rem", borderTop: "1px solid var(--border)" }}
+            >
+              <a
+                href="mailto:jrolfe477@gmail.com"
+                onClick={() => setOpen(false)}
+                style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", padding: "1rem", borderRadius: "999px", background: "var(--accent)", color: "#fff", fontWeight: 700, fontSize: "0.95rem", letterSpacing: "-0.01em" }}
+              >
+                Get in touch →
+              </a>
             </motion.div>
-          )}
-        </AnimatePresence>
-      </header>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <style>{`
         @media (min-width: 769px) {
           .nav-float { display: flex !important; }
-          .nav-mobile { display: none !important; }
+          .nav-mobile-pill { display: none !important; }
+          .nav-mobile-overlay { display: none !important; }
         }
         @media (max-width: 768px) {
           .nav-float { display: none !important; }
-          .nav-mobile { display: block !important; }
+          .nav-mobile-pill { display: flex !important; }
         }
       `}</style>
     </>
