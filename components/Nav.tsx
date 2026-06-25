@@ -32,11 +32,15 @@ export default function Nav() {
       document.body.style.width = "100%";
       document.body.style.overflow = "hidden";
       return () => {
+        document.documentElement.style.scrollBehavior = "auto";
         document.body.style.position = "";
         document.body.style.top = "";
         document.body.style.width = "";
         document.body.style.overflow = "";
-        window.scrollTo(0, savedScrollY.current);
+        window.scrollTo({ top: savedScrollY.current, behavior: "instant" as ScrollBehavior });
+        requestAnimationFrame(() => {
+          document.documentElement.style.scrollBehavior = "";
+        });
       };
     }
   }, [open]);
