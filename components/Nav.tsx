@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
@@ -16,6 +16,7 @@ export default function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const savedScrollY = useRef(0);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -25,25 +26,19 @@ export default function Nav() {
 
   useEffect(() => {
     if (open) {
-      const scrollY = window.scrollY;
+      savedScrollY.current = window.scrollY;
       document.body.style.position = "fixed";
-      document.body.style.top = `-${scrollY}px`;
+      document.body.style.top = `-${savedScrollY.current}px`;
       document.body.style.width = "100%";
       document.body.style.overflow = "hidden";
-    } else {
-      const scrollY = document.body.style.top;
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.width = "";
-      document.body.style.overflow = "";
-      if (scrollY) window.scrollTo(0, parseInt(scrollY) * -1);
+      return () => {
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.width = "";
+        document.body.style.overflow = "";
+        window.scrollTo(0, savedScrollY.current);
+      };
     }
-    return () => {
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.width = "";
-      document.body.style.overflow = "";
-    };
   }, [open]);
 
   const handleClick = (href: string) => {
@@ -124,15 +119,15 @@ export default function Nav() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "0.45rem 0.55rem 0.45rem 0.75rem",
-          background: scrolled ? "rgba(242,237,230,0.92)" : "rgba(242,237,230,0.78)",
+          padding: scrolled ? "0.3rem 0.45rem 0.3rem 0.6rem" : "0.45rem 0.55rem 0.45rem 0.75rem",
+          background: scrolled ? "rgba(242,237,230,0.96)" : "rgba(242,237,230,0.78)",
           backdropFilter: "blur(16px)",
           WebkitBackdropFilter: "blur(16px)",
           borderRadius: "999px",
           border: "1px solid var(--border)",
           boxShadow: scrolled ? "0 4px 24px rgba(0,0,0,0.10)" : "0 2px 12px rgba(0,0,0,0.06)",
-          transition: "background 0.3s ease, box-shadow 0.3s ease",
-          width: "calc(100% - 2.5rem)",
+          transition: "all 0.3s ease",
+          width: scrolled ? "auto" : "calc(100% - 2.5rem)",
           maxWidth: "420px",
         }}
       >

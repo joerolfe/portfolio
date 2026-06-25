@@ -133,7 +133,8 @@ export default function Contact() {
         {/* Contact cards */}
         <motion.div
           variants={itemVariants}
-          style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", justifyContent: "center", width: "100%" }}
+          className="contact-cards"
+          style={{ display: "flex", flexDirection: "column", gap: "0.75rem", width: "100%", maxWidth: "400px" }}
         >
           {methods.map((m) => (
             <ContactCard key={m.label} method={m} />
@@ -167,8 +168,7 @@ function ContactCard({ method }: { method: typeof methods[0] }) {
         borderRadius: "14px",
         textDecoration: "none",
         transition: "border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease",
-        flex: "1 1 180px",
-        minWidth: "180px",
+        width: "100%",
       }}
       onMouseEnter={(e) => {
         const el = e.currentTarget as HTMLElement;
