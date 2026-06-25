@@ -5,7 +5,7 @@ import AboutTimeline from "@/components/AboutTimeline";
 export const metadata = {
   title: "About — Joseph Rolfe",
   description:
-    "The story of how an 18-year-old from Swadlincote started building before everyone else.",
+    "From Code Club at school to running a digital agency, TikTok Shop, and automated social media — all before uni. Here's the full story.",
 };
 
 export default function AboutPage() {

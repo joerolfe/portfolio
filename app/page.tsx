@@ -1,7 +1,7 @@
 import Nav from "@/components/Nav";
 import Hero from "@/components/sections/Hero";
 import StatsStrip from "@/components/StatsStrip";
-import Projects from "@/components/sections/Projects";
+import IncomeStreams from "@/components/sections/IncomeStreams";
 import Experience from "@/components/sections/Experience";
 import PersonalBrand from "@/components/sections/PersonalBrand";
 import Contact from "@/components/sections/Contact";
@@ -15,7 +15,7 @@ export default function Home() {
       <main>
         <Hero />
         <StatsStrip />
-        <Projects />
+        <IncomeStreams />
         <Experience />
         <PersonalBrand />
         <Contact />

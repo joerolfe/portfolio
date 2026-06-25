@@ -22,6 +22,17 @@ const socialLinks = [
     ),
   },
   {
+    label: "Instagram",
+    href: "https://www.instagram.com/joerolffe",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+  {
     label: "Email",
     href: "mailto:jrolfe477@gmail.com",
     icon: (
@@ -61,7 +72,17 @@ export default function Footer() {
         </Link>
 
         <span style={{ fontSize: "0.78rem", color: "var(--muted)" }}>
-          © 2026 · Built intentionally.
+          © {new Date().getFullYear()} ·{" "}
+          <a
+            href="https://www.instagram.com/joerolffe"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "var(--muted)", textDecoration: "none", fontWeight: 500, transition: "color 0.2s ease" }}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--accent)")}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--muted)")}
+          >
+            Building in public.
+          </a>
         </span>
 
         <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>

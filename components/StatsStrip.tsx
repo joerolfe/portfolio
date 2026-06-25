@@ -3,30 +3,15 @@
 import { motion, type Variants } from "framer-motion";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
-const current = [
-  {
-    label: "Running",
-    name: "Rolfe Brand Scaling",
-    detail: "Digital agency · Live",
-    dot: true,
-  },
-  {
-    label: "Running",
-    name: "TikTok Shop & Automation",
-    detail: "Social media · Autopilot",
-    dot: true,
-  },
-  {
-    label: "Running",
-    name: "FluxFUT",
-    detail: "Content brand · Live",
-    dot: true,
-  },
+const stats = [
+  { value: "£1k+", label: "earned online / month" },
+  { value: "3", label: "clients on Brand Scaling" },
+  { value: "20k+", label: "followers on FluxFUT" },
 ];
 
 const containerVariants: Variants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
+  visible: { transition: { staggerChildren: 0.12 } },
 };
 
 const itemVariants: Variants = {
@@ -46,56 +31,55 @@ export default function StatsStrip() {
         borderBottom: "1px solid var(--border)",
       }}
     >
-      {/* Desktop layout */}
+      {/* Desktop — stat cards */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate={isVisible ? "visible" : "hidden"}
-        className="currently-strip"
+        className="stats-grid"
         style={{
           maxWidth: "1100px",
           margin: "0 auto",
-          padding: "1.25rem 1.25rem",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "0.5rem",
+          padding: "2rem 1.25rem",
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gap: "1rem",
         }}
       >
-        <span style={{ fontSize: "0.72rem", fontWeight: 600, color: "var(--muted)", letterSpacing: "0.08em", textTransform: "uppercase", marginRight: "0.75rem", flexShrink: 0, display: "flex", alignItems: "center", gap: "0.4rem" }}>
-          <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "var(--accent)", display: "inline-block", animation: "pulse-dot 2s ease-in-out infinite" }} />
-          Right now
-        </span>
-
-        {current.map((item, i) => (
-          <motion.div key={item.name} variants={itemVariants} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.6rem",
-                background: "var(--bg)",
-                border: "1px solid var(--border)",
-                borderRadius: "999px",
-                padding: "0.45rem 0.9rem",
-                whiteSpace: "nowrap",
-              }}
-            >
-              <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "var(--accent)", flexShrink: 0, animation: "pulse-dot 2s ease-in-out infinite" }} />
-              <span style={{ fontSize: "0.82rem", fontWeight: 600, color: "var(--text)" }}>{item.name}</span>
-              <span style={{ fontSize: "0.75rem", color: "var(--muted)" }}>{item.detail}</span>
-            </div>
-            {i < current.length - 1 && (
-              <span style={{ color: "var(--muted)", fontSize: "1rem", userSelect: "none", opacity: 0.4 }}>·</span>
+        {stats.map((stat, i) => (
+          <motion.div
+            key={stat.label}
+            variants={itemVariants}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "0.25rem",
+              padding: "1.25rem",
+              background: "var(--bg)",
+              border: "1px solid var(--border)",
+              borderRadius: "16px",
+              textAlign: "center",
+              position: "relative",
+            }}
+          >
+            {i === 0 && (
+              <span style={{ position: "absolute", top: "0.75rem", right: "0.75rem", width: "6px", height: "6px", borderRadius: "50%", background: "var(--accent)", animation: "pulse-dot 2s ease-in-out infinite" }} />
             )}
+            <span style={{ fontWeight: 800, fontSize: "clamp(1.8rem, 4vw, 2.4rem)", letterSpacing: "-0.04em", color: "var(--text)", lineHeight: 1 }}>
+              {stat.value}
+            </span>
+            <span style={{ fontSize: "0.8rem", color: "var(--muted)", fontWeight: 500 }}>
+              {stat.label}
+            </span>
           </motion.div>
         ))}
       </motion.div>
 
-      {/* Mobile marquee strip */}
-      <div className="currently-mobile" style={{ display: "none", overflow: "hidden", padding: "0.85rem 0", position: "relative" }}>
+      {/* Mobile — auto-scrolling marquee */}
+      <div className="stats-marquee" style={{ display: "none", overflow: "hidden", padding: "0.85rem 0" }}>
         <div className="marquee-track">
-          {[...current, ...current].map((item, i) => (
+          {[...stats, ...stats].map((stat, i) => (
             <div
               key={i}
               style={{
@@ -112,8 +96,8 @@ export default function StatsStrip() {
               }}
             >
               <span style={{ width: "5px", height: "5px", borderRadius: "50%", background: "var(--accent)", flexShrink: 0, animation: "pulse-dot 2s ease-in-out infinite" }} />
-              <span style={{ fontSize: "0.8rem", fontWeight: 600, color: "var(--text)" }}>{item.name}</span>
-              <span style={{ fontSize: "0.72rem", color: "var(--muted)" }}>{item.detail}</span>
+              <span style={{ fontSize: "0.85rem", fontWeight: 800, color: "var(--text)", letterSpacing: "-0.02em" }}>{stat.value}</span>
+              <span style={{ fontSize: "0.72rem", color: "var(--muted)" }}>{stat.label}</span>
             </div>
           ))}
         </div>
@@ -130,12 +114,12 @@ export default function StatsStrip() {
         }
         .marquee-track {
           display: inline-flex;
-          animation: marquee 12s linear infinite;
+          animation: marquee 10s linear infinite;
           padding-left: 1.25rem;
         }
         @media (max-width: 640px) {
-          .currently-strip { display: none !important; }
-          .currently-mobile { display: block !important; }
+          .stats-grid { display: none !important; }
+          .stats-marquee { display: block !important; }
         }
       `}</style>
     </div>

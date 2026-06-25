@@ -8,10 +8,9 @@ import { AnimatePresence, motion } from "framer-motion";
 const navLinks = [
   { label: "About", href: "/about" },
   { label: "Academic", href: "/academic" },
-  { label: "Projects", href: "/#projects" },
+  { label: "Income", href: "/#income" },
   { label: "Experience", href: "/#experience" },
 ];
-// Skills + Certifications live on /academic, not the homepage
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
@@ -56,87 +55,38 @@ export default function Nav() {
           alignItems: "center",
           gap: "0.25rem",
           padding: "0.45rem 0.55rem 0.45rem 0.75rem",
-          background: scrolled
-            ? "rgba(242,237,230,0.92)"
-            : "rgba(242,237,230,0.78)",
+          background: scrolled ? "rgba(242,237,230,0.92)" : "rgba(242,237,230,0.78)",
           backdropFilter: "blur(16px)",
           WebkitBackdropFilter: "blur(16px)",
           borderRadius: "999px",
           border: "1px solid var(--border)",
-          boxShadow: scrolled
-            ? "0 4px 24px rgba(0,0,0,0.10)"
-            : "0 2px 12px rgba(0,0,0,0.06)",
+          boxShadow: scrolled ? "0 4px 24px rgba(0,0,0,0.10)" : "0 2px 12px rgba(0,0,0,0.06)",
           transition: "background 0.3s ease, box-shadow 0.3s ease",
           whiteSpace: "nowrap",
         }}
       >
-        {/* Logo */}
         <Link
           href="/"
-          style={{
-            fontWeight: 700,
-            fontSize: "0.85rem",
-            color: "var(--text)",
-            letterSpacing: "-0.02em",
-            display: "flex",
-            alignItems: "center",
-            gap: "0.4rem",
-            marginRight: "0.5rem",
-          }}
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          style={{ fontWeight: 700, fontSize: "0.85rem", color: "var(--text)", letterSpacing: "-0.02em", display: "flex", alignItems: "center", gap: "0.4rem", marginRight: "0.5rem" }}
         >
-          <span
-            style={{
-              width: "26px",
-              height: "26px",
-              borderRadius: "50%",
-              background: "var(--accent)",
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#fff",
-              fontSize: "0.65rem",
-              fontWeight: 700,
-              flexShrink: 0,
-            }}
-          >
-            JR
+          <span style={{ width: "26px", height: "26px", borderRadius: "50%", overflow: "hidden", flexShrink: 0, border: "1.5px solid var(--border)" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/joseph.jpg.PNG" alt="Joseph Rolfe" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
           </span>
           Joseph Rolfe
         </Link>
 
-        {/* Divider */}
-        <span
-          style={{
-            width: "1px",
-            height: "18px",
-            background: "var(--border)",
-            margin: "0 0.5rem",
-            display: "inline-block",
-            flexShrink: 0,
-          }}
-        />
+        <span style={{ width: "1px", height: "18px", background: "var(--border)", margin: "0 0.5rem", display: "inline-block", flexShrink: 0 }} />
 
-        {/* Links */}
         {navLinks.map((link) => (
           <NavItem key={link.href} link={link} onClick={handleClick} pathname={pathname} />
         ))}
 
-        {/* CTA */}
         <Link
           href="/#contact"
           onClick={() => handleClick("/#contact")}
-          style={{
-            background: "var(--accent)",
-            color: "#fff",
-            fontWeight: 600,
-            fontSize: "0.78rem",
-            padding: "0.45rem 1rem",
-            borderRadius: "999px",
-            display: "inline-flex",
-            alignItems: "center",
-            marginLeft: "0.25rem",
-            transition: "opacity 0.2s ease",
-          }}
+          style={{ background: "var(--accent)", color: "#fff", fontWeight: 600, fontSize: "0.78rem", padding: "0.45rem 1rem", borderRadius: "999px", display: "inline-flex", alignItems: "center", marginLeft: "0.25rem", transition: "opacity 0.2s ease" }}
           onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = "0.85")}
           onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = "1")}
         >
@@ -144,7 +94,7 @@ export default function Nav() {
         </Link>
       </div>
 
-      {/* Mobile floating pill — same pill but with hamburger replacing links */}
+      {/* Mobile floating pill */}
       <div
         className="nav-mobile-pill"
         style={{
@@ -171,18 +121,12 @@ export default function Nav() {
         <Link
           href="/"
           onClick={() => setOpen(false)}
-          style={{
-            fontWeight: 700,
-            fontSize: "0.85rem",
-            color: "var(--text)",
-            letterSpacing: "-0.02em",
-            display: "flex",
-            alignItems: "center",
-            gap: "0.4rem",
-          }}
+          style={{ fontWeight: 700, fontSize: "0.85rem", color: "var(--text)", letterSpacing: "-0.02em", display: "flex", alignItems: "center", gap: "0.4rem" }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/joseph.jpg.PNG" alt="Joseph Rolfe" style={{ width: "26px", height: "26px", borderRadius: "50%", objectFit: "cover", objectPosition: "center top", flexShrink: 0, border: "1px solid var(--border)" }} />
+          <span style={{ width: "26px", height: "26px", borderRadius: "50%", overflow: "hidden", flexShrink: 0, border: "1.5px solid var(--border)" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/joseph.jpg.PNG" alt="Joseph Rolfe" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
+          </span>
           Joseph Rolfe
         </Link>
 
@@ -206,18 +150,8 @@ export default function Nav() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.22 }}
             className="nav-mobile-overlay"
-            style={{
-              position: "fixed",
-              inset: 0,
-              zIndex: 105,
-              background: "rgba(242,237,230,0.97)",
-              backdropFilter: "blur(20px)",
-              WebkitBackdropFilter: "blur(20px)",
-              display: "flex",
-              flexDirection: "column",
-            }}
+            style={{ position: "fixed", inset: 0, zIndex: 105, background: "rgba(242,237,230,0.97)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", display: "flex", flexDirection: "column" }}
           >
-            {/* Links — centred */}
             <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", padding: "0 2.5rem", gap: "0.25rem" }}>
               {navLinks.map((link, i) => (
                 <motion.div
@@ -246,7 +180,6 @@ export default function Nav() {
               ))}
             </div>
 
-            {/* CTA at bottom */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -296,22 +229,9 @@ function NavItem({
     return (
       <Link
         href={link.href}
-        style={{
-          fontWeight: 500,
-          fontSize: "0.82rem",
-          color: isActive ? "var(--accent)" : "var(--muted)",
-          padding: "0.35rem 0.65rem",
-          borderRadius: "999px",
-          transition: "background 0.15s ease, color 0.15s ease",
-        }}
-        onMouseEnter={(e) => {
-          (e.currentTarget as HTMLElement).style.background = "rgba(0,0,0,0.05)";
-          (e.currentTarget as HTMLElement).style.color = "var(--text)";
-        }}
-        onMouseLeave={(e) => {
-          (e.currentTarget as HTMLElement).style.background = "transparent";
-          (e.currentTarget as HTMLElement).style.color = isActive ? "var(--accent)" : "var(--muted)";
-        }}
+        style={{ fontWeight: 500, fontSize: "0.82rem", color: isActive ? "var(--accent)" : "var(--muted)", padding: "0.35rem 0.65rem", borderRadius: "999px", transition: "background 0.15s ease, color 0.15s ease" }}
+        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(0,0,0,0.05)"; (e.currentTarget as HTMLElement).style.color = "var(--text)"; }}
+        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = isActive ? "var(--accent)" : "var(--muted)"; }}
       >
         {link.label}
       </Link>
@@ -321,25 +241,9 @@ function NavItem({
   return (
     <button
       onClick={() => onClick(link.href)}
-      style={{
-        background: "none",
-        border: "none",
-        fontWeight: 500,
-        fontSize: "0.82rem",
-        color: "var(--muted)",
-        cursor: "pointer",
-        padding: "0.35rem 0.65rem",
-        borderRadius: "999px",
-        transition: "background 0.15s ease, color 0.15s ease",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.background = "rgba(0,0,0,0.05)";
-        e.currentTarget.style.color = "var(--text)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.background = "transparent";
-        e.currentTarget.style.color = "var(--muted)";
-      }}
+      style={{ background: "none", border: "none", fontWeight: 500, fontSize: "0.82rem", color: "var(--muted)", cursor: "pointer", padding: "0.35rem 0.65rem", borderRadius: "999px", transition: "background 0.15s ease, color 0.15s ease" }}
+      onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(0,0,0,0.05)"; e.currentTarget.style.color = "var(--text)"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--muted)"; }}
     >
       {link.label}
     </button>
