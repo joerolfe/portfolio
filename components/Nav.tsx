@@ -150,7 +150,7 @@ export default function Nav() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.22 }}
             className="nav-mobile-overlay"
-            style={{ position: "fixed", inset: 0, zIndex: 105, background: "rgba(242,237,230,0.97)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", display: "flex", flexDirection: "column" }}
+            style={{ position: "fixed", inset: 0, zIndex: 105, background: "rgba(242,237,230,0.97)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", display: "flex", flexDirection: "column", height: "100dvh" }}
           >
             <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", padding: "0 2.5rem", gap: "0.25rem" }}>
               {navLinks.map((link, i) => (
@@ -184,7 +184,7 @@ export default function Nav() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.28, duration: 0.35 }}
-              style={{ padding: "2rem 2.5rem", borderTop: "1px solid var(--border)" }}
+              style={{ padding: "2rem 2.5rem", paddingBottom: "calc(2rem + env(safe-area-inset-bottom, 0px))", borderTop: "1px solid var(--border)" }}
             >
               <a
                 href="mailto:jrolfe477@gmail.com"
