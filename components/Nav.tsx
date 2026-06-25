@@ -17,6 +17,7 @@ export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const savedScrollY = useRef(0);
+  const pendingScrollId = useRef<string | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -37,24 +38,34 @@ export default function Nav() {
         document.body.style.top = "";
         document.body.style.width = "";
         document.body.style.overflow = "";
-        window.scrollTo({ top: savedScrollY.current, behavior: "instant" as ScrollBehavior });
-        requestAnimationFrame(() => {
-          document.documentElement.style.scrollBehavior = "";
-        });
+        const target = pendingScrollId.current;
+        pendingScrollId.current = null;
+        if (target) {
+          requestAnimationFrame(() => {
+            document.getElementById(target)?.scrollIntoView({ behavior: "smooth" });
+            document.documentElement.style.scrollBehavior = "";
+          });
+        } else {
+          window.scrollTo({ top: savedScrollY.current, behavior: "instant" as ScrollBehavior });
+          requestAnimationFrame(() => {
+            document.documentElement.style.scrollBehavior = "";
+          });
+        }
       };
     }
   }, [open]);
 
   const handleClick = (href: string) => {
-    setOpen(false);
     if (href.startsWith("/#")) {
       if (pathname !== "/") {
+        setOpen(false);
         window.location.href = href;
         return;
       }
       const id = href.replace("/#", "");
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      pendingScrollId.current = id;
     }
+    setOpen(false);
   };
 
   return (
@@ -123,15 +134,15 @@ export default function Nav() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: scrolled ? "0.3rem 0.45rem 0.3rem 0.6rem" : "0.45rem 0.55rem 0.45rem 0.75rem",
+          padding: scrolled ? "0.28rem 0.4rem 0.28rem 0.6rem" : "0.45rem 0.55rem 0.45rem 0.75rem",
           background: scrolled ? "rgba(242,237,230,0.96)" : "rgba(242,237,230,0.78)",
           backdropFilter: "blur(16px)",
           WebkitBackdropFilter: "blur(16px)",
           borderRadius: "999px",
           border: "1px solid var(--border)",
           boxShadow: scrolled ? "0 4px 24px rgba(0,0,0,0.10)" : "0 2px 12px rgba(0,0,0,0.06)",
-          transition: "all 0.3s ease",
-          width: scrolled ? "auto" : "calc(100% - 2.5rem)",
+          transition: "padding 0.4s cubic-bezier(0.4,0,0.2,1), background 0.4s ease, box-shadow 0.4s ease",
+          width: "calc(100% - 2.5rem)",
           maxWidth: "420px",
         }}
       >

@@ -17,7 +17,7 @@ export default function ScrollProgress() {
         height: "2px",
         background: "#c4622d",
         transformOrigin: "0%",
-        zIndex: 9999,
+        zIndex: 104,
       }}
     />
   );
