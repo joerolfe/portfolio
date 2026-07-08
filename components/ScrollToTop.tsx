@@ -16,10 +16,12 @@ export default function ScrollToTop() {
     <AnimatePresence>
       {show && (
         <motion.button
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 10 }}
-          transition={{ duration: 0.25 }}
+          initial={{ opacity: 0, y: 14, scale: 0.8 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 14, scale: 0.8 }}
+          whileHover={{ scale: 1.1, y: -3 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: "spring", stiffness: 380, damping: 22 }}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           style={{
             position: "fixed",
@@ -37,11 +39,8 @@ export default function ScrollToTop() {
             fontSize: "1rem",
             zIndex: 1000,
             cursor: "pointer",
-            boxShadow: "0 2px 12px rgba(0,0,0,0.15)",
-            transition: "opacity 0.2s ease",
+            boxShadow: "0 6px 20px rgba(0,0,0,0.2)",
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.75")}
-          onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
           aria-label="Scroll to top"
         >
           ↑

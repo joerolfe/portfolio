@@ -1,7 +1,40 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { useRef } from "react";
+import { motion, useMotionValue, useSpring, type Variants } from "framer-motion";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+
+/** Wraps children in a magnetic field — the element leans toward the cursor. */
+function Magnetic({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 200, damping: 16, mass: 0.5 });
+  const springY = useSpring(y, { stiffness: 200, damping: 16, mass: 0.5 });
+
+  const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    x.set((e.clientX - (rect.left + rect.width / 2)) * 0.28);
+    y.set((e.clientY - (rect.top + rect.height / 2)) * 0.28);
+  };
+
+  const onMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+      style={{ x: springX, y: springY, display: "inline-block" }}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 const containerVariants: Variants = {
   hidden: {},
@@ -75,16 +108,27 @@ export default function Contact() {
             padding: "0.5rem 1rem",
           }}
         >
-          <span
-            style={{
-              width: "7px",
-              height: "7px",
-              borderRadius: "50%",
-              background: "var(--accent)",
-              animation: "pulse-dot 2s ease-in-out infinite",
-              flexShrink: 0,
-            }}
-          />
+          <span style={{ position: "relative", width: "7px", height: "7px", flexShrink: 0, display: "inline-flex" }}>
+            <span
+              style={{
+                position: "absolute",
+                inset: 0,
+                borderRadius: "50%",
+                background: "var(--accent)",
+                animation: "pulse-ring 2.2s cubic-bezier(0.16,1,0.3,1) infinite",
+              }}
+            />
+            <span
+              style={{
+                width: "7px",
+                height: "7px",
+                borderRadius: "50%",
+                background: "var(--accent)",
+                animation: "pulse-dot 2s ease-in-out infinite",
+                flexShrink: 0,
+              }}
+            />
+          </span>
           <span style={{ fontSize: "0.78rem", fontWeight: 600, color: "var(--accent)" }}>
             Looking for new clients
           </span>
@@ -108,15 +152,17 @@ export default function Contact() {
           </p>
         </motion.div>
 
-        {/* Primary CTA */}
+        {/* Primary CTA — magnetic */}
         <motion.div variants={itemVariants} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
-          <motion.a
-            href="mailto:jrolfe477@gmail.com"
-            className="btn-primary"
-            style={{ fontSize: "1rem", padding: "0.9rem 2rem" }}
-          >
-            Send me an email →
-          </motion.a>
+          <Magnetic>
+            <a
+              href="mailto:jrolfe477@gmail.com"
+              className="btn-primary"
+              style={{ fontSize: "1rem", padding: "0.9rem 2rem" }}
+            >
+              Send me an email →
+            </a>
+          </Magnetic>
           <span style={{ fontSize: "0.8rem", color: "var(--muted)" }}>jrolfe477@gmail.com</span>
         </motion.div>
 
@@ -146,6 +192,10 @@ export default function Contact() {
         @keyframes pulse-dot {
           0%, 100% { opacity: 1; transform: scale(1); }
           50% { opacity: 0.5; transform: scale(0.75); }
+        }
+        @keyframes pulse-ring {
+          0% { transform: scale(1); opacity: 0.55; }
+          70%, 100% { transform: scale(3.2); opacity: 0; }
         }
       `}</style>
     </section>

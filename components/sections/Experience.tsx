@@ -125,24 +125,52 @@ function ExperienceRow({ exp, last }: { exp: Exp; last: boolean }) {
   return (
     <motion.div
       variants={{
-        hidden: { opacity: 0, y: 24 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
+        hidden: { opacity: 0, x: -18 },
+        visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
       }}
       style={{
         display: "grid",
         gridTemplateColumns: "200px 1fr",
         gap: "2rem",
-        padding: "1.75rem 1rem",
+        padding: "1.75rem 1rem 1.75rem 1.25rem",
         borderBottom: !last ? "1px solid var(--border)" : "none",
         alignItems: "start",
         borderRadius: "12px",
-        transition: "background 0.2s ease",
+        transition: "background 0.25s ease",
         margin: "0 -1rem",
+        position: "relative",
+        overflow: "hidden",
       }}
       className="exp-row"
-      onMouseEnter={(e) => (e.currentTarget.style.background = "var(--bg)")}
-      onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.background = "var(--bg)";
+        const bar = e.currentTarget.querySelector<HTMLElement>(".exp-accent-bar");
+        if (bar) bar.style.transform = "scaleY(1)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = "transparent";
+        const bar = e.currentTarget.querySelector<HTMLElement>(".exp-accent-bar");
+        if (bar) bar.style.transform = "scaleY(0)";
+      }}
     >
+      {/* Accent bar — grows vertically on hover */}
+      <span
+        aria-hidden
+        className="exp-accent-bar"
+        style={{
+          position: "absolute",
+          left: 0,
+          top: "1.25rem",
+          bottom: "1.25rem",
+          width: "2.5px",
+          borderRadius: "99px",
+          background: "var(--accent)",
+          transform: "scaleY(0)",
+          transformOrigin: "top center",
+          transition: "transform 0.4s cubic-bezier(0.16,1,0.3,1)",
+        }}
+      />
+
       {/* Left */}
       <div style={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}>
         <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--accent)" }}>{exp.period}</span>
@@ -157,9 +185,9 @@ function ExperienceRow({ exp, last }: { exp: Exp; last: boolean }) {
           <span style={{ fontSize: "0.85rem", color: "var(--muted)", fontWeight: 500 }}>{exp.company}</span>
           {exp.link && (
             <a href={exp.link} target="_blank" rel="noopener noreferrer"
-              style={{ fontSize: "0.78rem", color: "var(--accent)", fontWeight: 600, transition: "opacity 0.2s ease" }}
-              onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.7")}
-              onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+              style={{ fontSize: "0.78rem", color: "var(--accent)", fontWeight: 600, display: "inline-block", transition: "transform 0.25s cubic-bezier(0.16,1,0.3,1), opacity 0.2s ease" }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = "translate(2px, -2px)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = "translate(0, 0)"; }}
             >↗</a>
           )}
         </div>

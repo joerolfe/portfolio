@@ -1,17 +1,27 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, type Variants } from "framer-motion";
 import Link from "next/link";
 
-const containerVariants: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
-};
+const EASE = [0.16, 1, 0.3, 1] as const;
+
+// While the name-intro overlay plays (first hard load), hold the hero back
+// so its reveal happens as the curtain lifts.
+const introBase = () =>
+  typeof window !== "undefined" && !window.__introDone ? 1.05 : 0;
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  hidden: { opacity: 0, y: 24, filter: "blur(6px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.8, ease: EASE },
+  },
 };
+
+const headlineWords = ["Hey,", "I'm", "Joseph."];
 
 const socialLinks = [
   {
@@ -46,16 +56,26 @@ const socialLinks = [
   },
 ];
 
-const stats = [
-  { label: "Role", value: "Founder & Cyber Student" },
-  { label: "Location", value: "Burton on Trent, UK" },
-  { label: "Uni", value: "Staffordshire · 2026–2029" },
-];
-
 export default function Hero() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  const photoY = useTransform(scrollYProgress, [0, 1], [0, 60]);
+  const textY = useTransform(scrollYProgress, [0, 1], [0, 90]);
+  const fade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
+  const base = useRef(introBase()).current;
+  const containerVariants: Variants = {
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.09, delayChildren: base + 0.1 } },
+  };
+
   return (
     <section
       id="hero"
+      ref={sectionRef}
       style={{
         minHeight: "100vh",
         display: "flex",
@@ -63,8 +83,21 @@ export default function Hero() {
         background: "var(--bg)",
         paddingTop: "80px",
         position: "relative",
+        overflow: "hidden",
       }}
     >
+      {/* Ambient atmosphere — soft accent glow, top-left wash */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          pointerEvents: "none",
+          background:
+            "radial-gradient(600px 420px at 78% 38%, rgba(196,98,45,0.07), transparent 70%), radial-gradient(500px 380px at 12% 12%, rgba(196,98,45,0.05), transparent 70%)",
+        }}
+      />
+
       <div
         style={{
           maxWidth: "1100px",
@@ -75,6 +108,7 @@ export default function Hero() {
           gridTemplateColumns: "1fr 1fr",
           gap: "4rem",
           alignItems: "center",
+          position: "relative",
         }}
         className="hero-grid"
       >
@@ -84,14 +118,14 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
           className="hero-text"
-          style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}
+          style={{ display: "flex", flexDirection: "column", gap: "1.5rem", y: textY, opacity: fade }}
         >
           <motion.span variants={itemVariants} className="section-label">
             TikTok Shop · Social Media Automation · Brand Scaling
           </motion.span>
 
-          <motion.h1
-            variants={itemVariants}
+          {/* Headline — words rise out of a clipping mask, one by one */}
+          <h1
             style={{
               fontWeight: 800,
               fontSize: "clamp(2.6rem, 5.5vw, 4rem)",
@@ -100,8 +134,23 @@ export default function Hero() {
               lineHeight: 1.08,
             }}
           >
-            Hey, I&apos;m Joseph.
-          </motion.h1>
+            {headlineWords.map((word, i) => (
+              <span
+                key={i}
+                style={{ display: "inline-block", overflow: "hidden", verticalAlign: "bottom", paddingBottom: "0.08em", marginBottom: "-0.08em" }}
+              >
+                <motion.span
+                  initial={{ y: "110%" }}
+                  animate={{ y: 0 }}
+                  transition={{ duration: 0.9, delay: base + 0.15 + i * 0.09, ease: EASE }}
+                  style={{ display: "inline-block", whiteSpace: "pre" }}
+                >
+                  {word}
+                  {i < headlineWords.length - 1 ? " " : ""}
+                </motion.span>
+              </span>
+            ))}
+          </h1>
 
           <motion.p
             variants={itemVariants}
@@ -149,12 +198,15 @@ export default function Hero() {
             style={{ display: "flex", gap: "0.75rem", alignItems: "center", paddingTop: "0.25rem" }}
           >
             {socialLinks.map((s) => (
-              <a
+              <motion.a
                 key={s.label}
                 href={s.href}
                 target={s.href.startsWith("mailto") ? undefined : "_blank"}
                 rel="noopener noreferrer"
                 aria-label={s.label}
+                whileHover={{ y: -4, scale: 1.06 }}
+                whileTap={{ scale: 0.94 }}
+                transition={{ type: "spring", stiffness: 420, damping: 18 }}
                 style={{
                   width: "38px",
                   height: "38px",
@@ -165,52 +217,73 @@ export default function Hero() {
                   alignItems: "center",
                   justifyContent: "center",
                   color: "var(--muted)",
-                  transition: "color 0.2s ease, border-color 0.2s ease, background 0.2s ease",
+                  transition: "color 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.25s ease",
                 }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget as HTMLElement;
                   el.style.color = "var(--accent)";
                   el.style.borderColor = "var(--accent)";
                   el.style.background = "rgba(196,98,45,0.06)";
+                  el.style.boxShadow = "0 6px 16px rgba(196,98,45,0.16)";
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget as HTMLElement;
                   el.style.color = "var(--muted)";
                   el.style.borderColor = "var(--border)";
                   el.style.background = "var(--bg2)";
+                  el.style.boxShadow = "none";
                 }}
               >
                 {s.icon}
-              </a>
+              </motion.a>
             ))}
           </motion.div>
         </motion.div>
 
-        {/* Right — photo */}
+        {/* Right — photo with offset accent frame + parallax */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.7, ease: "easeOut" }}
+          transition={{ delay: base + 0.35, duration: 1, ease: EASE }}
           className="hero-photo"
-          style={{ display: "flex", justifyContent: "center" }}
+          style={{ display: "flex", justifyContent: "center", y: photoY }}
         >
-          <div
-            style={{
-              borderRadius: "20px",
-              overflow: "hidden",
-              border: "1px solid var(--border)",
-              width: "100%",
-              maxWidth: "420px",
-              aspectRatio: "3/4",
-              boxShadow: "0 8px 40px rgba(0,0,0,0.10)",
-            }}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/joseph.jpg.PNG"
-              alt="Joseph Rolfe"
-              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }}
+          <div style={{ position: "relative", width: "100%", maxWidth: "420px" }} className="hero-photo-wrap">
+            {/* Offset accent frame behind the photo */}
+            <div
+              aria-hidden
+              className="hero-photo-frame"
+              style={{
+                position: "absolute",
+                inset: 0,
+                transform: "translate(14px, 14px)",
+                borderRadius: "20px",
+                border: "1px solid rgba(196,98,45,0.35)",
+                pointerEvents: "none",
+              }}
             />
+            <div
+              style={{
+                borderRadius: "20px",
+                overflow: "hidden",
+                border: "1px solid var(--border)",
+                width: "100%",
+                aspectRatio: "3/4",
+                boxShadow: "0 24px 60px -18px rgba(28,25,23,0.28), 0 8px 24px rgba(0,0,0,0.08)",
+                position: "relative",
+                background: "var(--bg3)",
+              }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <motion.img
+                src="/joseph.jpg.PNG"
+                alt="Joseph Rolfe"
+                initial={{ scale: 1.12 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: base + 0.35, duration: 1.6, ease: EASE }}
+                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }}
+              />
+            </div>
           </div>
         </motion.div>
       </div>
@@ -219,7 +292,7 @@ export default function Hero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.6 }}
+        transition={{ delay: base + 1.2, duration: 0.6 }}
         className="scroll-indicator"
         style={{
           position: "absolute",
@@ -259,8 +332,9 @@ export default function Hero() {
             text-align: center;
           }
           .hero-photo { order: -1; margin-bottom: 2rem; }
+          .hero-photo-wrap { width: 180px !important; max-width: unset !important; margin: 0 auto; }
+          .hero-photo-frame { transform: translate(9px, 9px) !important; }
           .hero-photo img { border-radius: 20px !important; width: 180px !important; height: 240px !important; aspect-ratio: 3/4 !important; object-position: center top !important; margin: 0 auto; }
-          .hero-photo > div { width: 180px !important; height: 240px !important; aspect-ratio: 3/4 !important; border-radius: 20px !important; max-width: unset !important; margin: 0 auto; }
           .hero-text { align-items: center !important; }
           .hero-text p { max-width: 100% !important; }
           .hero-text .section-label { text-align: center; }

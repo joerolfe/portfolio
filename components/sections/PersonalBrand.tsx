@@ -76,16 +76,37 @@ export default function PersonalBrand() {
                   display: "flex",
                   alignItems: "center",
                   gap: "0.75rem",
-                  background: active === i ? "var(--bg2)" : "transparent",
-                  border: active === i ? "1px solid var(--border)" : "1px solid transparent",
+                  background: "transparent",
+                  border: "none",
                   borderRadius: "12px",
                   padding: "0.9rem 1.1rem",
                   cursor: "pointer",
                   textAlign: "left",
                   width: "100%",
-                  transition: "background 0.2s ease, border-color 0.2s ease",
+                  position: "relative",
+                }}
+                onMouseEnter={(e) => {
+                  if (active !== i) e.currentTarget.style.background = "rgba(0,0,0,0.03)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "transparent";
                 }}
               >
+                {/* Shared highlight that glides between active pillars */}
+                {active === i && (
+                  <motion.span
+                    layoutId="pb-active-pill"
+                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      background: "var(--bg2)",
+                      border: "1px solid var(--border)",
+                      borderRadius: "12px",
+                      zIndex: 0,
+                    }}
+                  />
+                )}
                 <span
                   style={{
                     width: "6px",
@@ -94,6 +115,9 @@ export default function PersonalBrand() {
                     background: active === i ? "var(--accent)" : "var(--border)",
                     flexShrink: 0,
                     transition: "background 0.2s ease",
+                    position: "relative",
+                    zIndex: 1,
+                    boxShadow: active === i ? "0 0 0 4px rgba(196,98,45,0.14)" : "none",
                   }}
                 />
                 <span
@@ -102,12 +126,21 @@ export default function PersonalBrand() {
                     fontSize: "0.88rem",
                     color: active === i ? "var(--text)" : "var(--muted)",
                     transition: "color 0.2s ease, font-weight 0.2s ease",
+                    position: "relative",
+                    zIndex: 1,
                   }}
                 >
                   {pillar.label}
                 </span>
                 {active === i && (
-                  <span style={{ marginLeft: "auto", color: "var(--accent)", fontSize: "0.8rem" }}>→</span>
+                  <motion.span
+                    initial={{ opacity: 0, x: -6 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                    style={{ marginLeft: "auto", color: "var(--accent)", fontSize: "0.8rem", position: "relative", zIndex: 1 }}
+                  >
+                    →
+                  </motion.span>
                 )}
               </button>
             ))}
@@ -129,10 +162,10 @@ export default function PersonalBrand() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={active}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.22, ease: "easeOut" }}
+                initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, y: -10, filter: "blur(4px)" }}
+                transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
               >
                 <p style={{ fontSize: "0.78rem", fontWeight: 600, color: "var(--accent)", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.6rem" }}>
                   {String(active + 1).padStart(2, "0")} / {String(pillars.length).padStart(2, "0")}

@@ -3,7 +3,16 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+
+const EASE = [0.16, 1, 0.3, 1] as const;
+const BRAND = "Joseph Rolfe";
+
+declare global {
+  interface Window {
+    __introDone?: boolean;
+  }
+}
 
 const navLinks = [
   { label: "About", href: "/about" },
@@ -12,12 +21,70 @@ const navLinks = [
   { label: "Experience", href: "/#experience" },
 ];
 
+type IntroPhase = "intro" | "morph" | "done";
+
 export default function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const savedScrollY = useRef(0);
   const pendingScrollId = useRef<string | null>(null);
+
+  // ── Intro: brand name loads centered, then morphs into the nav pill.
+  // Homepage only — subpages show the nav immediately. ──
+  const [phase, setPhase] = useState<IntroPhase>(() =>
+    pathname !== "/" || (typeof window !== "undefined" && window.__introDone)
+      ? "done"
+      : "intro"
+  );
+  const introTextRef = useRef<HTMLDivElement>(null);
+  const [morphTo, setMorphTo] = useState<{ x: number; y: number; scale: number } | null>(null);
+  const reduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    if (phase !== "intro") {
+      // Subpage load or already played — Hero shouldn't wait for an intro
+      window.__introDone = true;
+      return;
+    }
+    if (reduceMotion) {
+      window.__introDone = true;
+      setPhase("done");
+      return;
+    }
+    let t2: ReturnType<typeof setTimeout>;
+    const t1 = setTimeout(() => {
+      const intro = introTextRef.current;
+      const target = Array.from(
+        document.querySelectorAll<HTMLElement>(".nav-brand-text")
+      ).find((el) => el.offsetParent !== null);
+      if (!intro || !target) {
+        window.__introDone = true;
+        setPhase("done");
+        return;
+      }
+      const a = intro.getBoundingClientRect();
+      const b = target.getBoundingClientRect();
+      // html { zoom } scales rects but not transform values — compensate
+      const zoom =
+        parseFloat(getComputedStyle(document.documentElement).zoom as unknown as string) || 1;
+      setMorphTo({
+        x: (b.left - a.left) / zoom,
+        y: (b.top - a.top) / zoom,
+        scale: b.width / a.width,
+      });
+      setPhase("morph");
+      t2 = setTimeout(() => {
+        window.__introDone = true;
+        setPhase("done");
+      }, 850);
+    }, 1150);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reduceMotion]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -68,16 +135,84 @@ export default function Nav() {
     setOpen(false);
   };
 
+  const introActive = phase === "intro";
+
   return (
     <>
+      {/* ── Intro overlay ── */}
+      {phase !== "done" && (
+        <div style={{ position: "fixed", inset: 0, zIndex: 200, pointerEvents: "none" }} aria-hidden>
+          {/* Curtain */}
+          <motion.div
+            initial={{ opacity: 1 }}
+            animate={{ opacity: phase === "morph" ? 0 : 1 }}
+            transition={{ duration: 0.55, ease: "easeInOut" }}
+            style={{ position: "absolute", inset: 0, background: "var(--bg)" }}
+          />
+          {/* Name — letters rise in, then the name flies into its exact spot
+              in the pill and crossfades into the real nav text */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <motion.div
+              ref={introTextRef}
+              animate={
+                phase === "morph" && morphTo
+                  ? { x: morphTo.x, y: morphTo.y, scale: morphTo.scale, opacity: 0 }
+                  : { x: 0, y: 0, scale: 1, opacity: 1 }
+              }
+              transition={{
+                duration: 0.8,
+                ease: EASE,
+                opacity: { delay: 0.5, duration: 0.3, ease: "easeOut" },
+              }}
+              style={{
+                transformOrigin: "top left",
+                fontWeight: 700,
+                fontSize: "clamp(2.2rem, 6vw, 3.6rem)",
+                letterSpacing: "-0.02em",
+                color: "var(--text)",
+                whiteSpace: "nowrap",
+                lineHeight: 1.2,
+              }}
+            >
+              {BRAND.split("").map((ch, i) => (
+                <span
+                  key={i}
+                  style={{ display: "inline-block", overflow: "hidden", verticalAlign: "bottom" }}
+                >
+                  <motion.span
+                    initial={{ y: "115%" }}
+                    animate={{ y: 0 }}
+                    transition={{ duration: 0.7, delay: 0.12 + i * 0.035, ease: EASE }}
+                    style={{ display: "inline-block", whiteSpace: "pre" }}
+                  >
+                    {ch}
+                  </motion.span>
+                </span>
+              ))}
+            </motion.div>
+          </div>
+        </div>
+      )}
+
       {/* Floating pill nav — desktop */}
-      <div
+      <motion.div
         className="nav-float"
+        initial={false}
+        animate={{ opacity: introActive ? 0 : 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
         style={{
           position: "fixed",
           top: "1.25rem",
           left: "50%",
-          transform: "translateX(-50%)",
+          x: "-50%",
           zIndex: 100,
           display: "flex",
           alignItems: "center",
@@ -91,6 +226,7 @@ export default function Nav() {
           boxShadow: scrolled ? "0 4px 24px rgba(0,0,0,0.10)" : "0 2px 12px rgba(0,0,0,0.06)",
           transition: "background 0.3s ease, box-shadow 0.3s ease",
           whiteSpace: "nowrap",
+          pointerEvents: introActive ? "none" : "auto",
         }}
       >
         <Link
@@ -98,11 +234,18 @@ export default function Nav() {
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           style={{ fontWeight: 700, fontSize: "0.85rem", color: "var(--text)", letterSpacing: "-0.02em", display: "flex", alignItems: "center", gap: "0.4rem", marginRight: "0.5rem" }}
         >
-          <span style={{ width: "26px", height: "26px", borderRadius: "50%", overflow: "hidden", flexShrink: 0, border: "1.5px solid var(--border)" }}>
+          <span className="nav-brand-avatar" style={{ width: "26px", height: "26px", borderRadius: "50%", overflow: "hidden", flexShrink: 0, border: "1.5px solid var(--border)" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/joseph.jpg.PNG" alt="Joseph Rolfe" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
           </span>
-          Joseph Rolfe
+          <motion.span
+            className="nav-brand-text"
+            initial={false}
+            animate={{ opacity: introActive ? 0 : 1 }}
+            transition={{ duration: 0.35, delay: introActive ? 0 : 0.5, ease: "easeOut" }}
+          >
+            {BRAND}
+          </motion.span>
         </Link>
 
         <span style={{ width: "1px", height: "18px", background: "var(--border)", margin: "0 0.5rem", display: "inline-block", flexShrink: 0 }} />
@@ -120,16 +263,19 @@ export default function Nav() {
         >
           Get in touch →
         </Link>
-      </div>
+      </motion.div>
 
       {/* Mobile floating pill */}
-      <div
+      <motion.div
         className="nav-mobile-pill"
+        initial={false}
+        animate={{ opacity: introActive ? 0 : 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
         style={{
           position: "fixed",
           top: "1.25rem",
           left: "50%",
-          transform: "translateX(-50%)",
+          x: "-50%",
           zIndex: 110,
           display: "flex",
           alignItems: "center",
@@ -144,6 +290,7 @@ export default function Nav() {
           transition: "padding 0.4s cubic-bezier(0.4,0,0.2,1), background 0.4s ease, box-shadow 0.4s ease",
           width: "calc(100% - 2.5rem)",
           maxWidth: "420px",
+          pointerEvents: introActive ? "none" : "auto",
         }}
       >
         <Link
@@ -151,11 +298,18 @@ export default function Nav() {
           onClick={() => setOpen(false)}
           style={{ fontWeight: 700, fontSize: "0.85rem", color: "var(--text)", letterSpacing: "-0.02em", display: "flex", alignItems: "center", gap: "0.4rem" }}
         >
-          <span style={{ width: "26px", height: "26px", borderRadius: "50%", overflow: "hidden", flexShrink: 0, border: "1.5px solid var(--border)" }}>
+          <span className="nav-brand-avatar" style={{ width: "26px", height: "26px", borderRadius: "50%", overflow: "hidden", flexShrink: 0, border: "1.5px solid var(--border)" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/joseph.jpg.PNG" alt="Joseph Rolfe" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
           </span>
-          Joseph Rolfe
+          <motion.span
+            className="nav-brand-text"
+            initial={false}
+            animate={{ opacity: introActive ? 0 : 1 }}
+            transition={{ duration: 0.35, delay: introActive ? 0 : 0.5, ease: "easeOut" }}
+          >
+            {BRAND}
+          </motion.span>
         </Link>
 
         <button
@@ -167,7 +321,7 @@ export default function Nav() {
           <motion.span animate={{ opacity: open ? 0 : 1 }} transition={{ duration: 0.15 }} style={{ width: "16px", height: "1.5px", background: "var(--text)", borderRadius: "99px", display: "block" }} />
           <motion.span animate={{ rotate: open ? -45 : 0, y: open ? -7 : 0 }} transition={{ duration: 0.2 }} style={{ width: "16px", height: "1.5px", background: "var(--text)", borderRadius: "99px", display: "block", transformOrigin: "center" }} />
         </button>
-      </div>
+      </motion.div>
 
       {/* Mobile full-screen overlay */}
       <AnimatePresence>

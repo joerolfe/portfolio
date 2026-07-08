@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, animate, useReducedMotion, type Variants } from "framer-motion";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const stats = [
@@ -15,9 +16,50 @@ const containerVariants: Variants = {
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  hidden: { opacity: 0, y: 16, scale: 0.97 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
+  },
 };
+
+/** Renders "£1k+" style values, counting the numeric part up from 0 when revealed. */
+function CountUpValue({ value, start }: { value: string; start: boolean }) {
+  const match = value.match(/^([^\d]*)(\d+)(.*)$/);
+  const prefix = match ? match[1] : "";
+  const target = match ? parseInt(match[2], 10) : 0;
+  const suffix = match ? match[3] : "";
+  const [display, setDisplay] = useState(match ? 0 : null);
+  const reduceMotion = useReducedMotion();
+  const started = useRef(false);
+
+  useEffect(() => {
+    if (!start || started.current || !match) return;
+    started.current = true;
+    if (reduceMotion) {
+      setDisplay(target);
+      return;
+    }
+    const controls = animate(0, target, {
+      duration: 1.4,
+      ease: [0.16, 1, 0.3, 1],
+      onUpdate: (v) => setDisplay(Math.round(v)),
+    });
+    return () => controls.stop();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [start, target, reduceMotion]);
+
+  if (display === null) return <>{value}</>;
+  return (
+    <>
+      {prefix}
+      {display}
+      {suffix}
+    </>
+  );
+}
 
 export default function StatsStrip() {
   const { ref, isVisible } = useScrollAnimation();
@@ -50,6 +92,8 @@ export default function StatsStrip() {
           <motion.div
             key={stat.label}
             variants={itemVariants}
+            whileHover={{ y: -4 }}
+            transition={{ type: "spring", stiffness: 320, damping: 22 }}
             style={{
               display: "flex",
               flexDirection: "column",
@@ -61,13 +105,24 @@ export default function StatsStrip() {
               borderRadius: "16px",
               textAlign: "center",
               position: "relative",
+              cursor: "default",
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.boxShadow = "0 10px 30px -8px rgba(28,25,23,0.14)";
+              el.style.borderColor = "rgba(196,98,45,0.3)";
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.boxShadow = "none";
+              el.style.borderColor = "var(--border)";
             }}
           >
             {i === 0 && (
               <span style={{ position: "absolute", top: "0.75rem", right: "0.75rem", width: "6px", height: "6px", borderRadius: "50%", background: "var(--accent)", animation: "pulse-dot 2s ease-in-out infinite" }} />
             )}
-            <span style={{ fontWeight: 800, fontSize: "clamp(1.8rem, 4vw, 2.4rem)", letterSpacing: "-0.04em", color: "var(--text)", lineHeight: 1 }}>
-              {stat.value}
+            <span style={{ fontWeight: 800, fontSize: "clamp(1.8rem, 4vw, 2.4rem)", letterSpacing: "-0.04em", color: "var(--text)", lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>
+              <CountUpValue value={stat.value} start={isVisible} />
             </span>
             <span style={{ fontSize: "0.8rem", color: "var(--muted)", fontWeight: 500 }}>
               {stat.label}

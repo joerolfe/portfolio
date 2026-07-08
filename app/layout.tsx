@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import ScrollProgress from "@/components/ScrollProgress";
+import Nav from "@/components/Nav";
+import ScrollToTop from "@/components/ScrollToTop";
+import StartAtTop from "@/components/StartAtTop";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -45,10 +48,15 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={inter.variable} data-scroll-behavior="smooth">
       <body>
+        <StartAtTop />
         <ScrollProgress />
+        {/* Nav lives outside the page-transition wrapper so position:fixed
+            isn't broken by the template's transform/filter */}
+        <Nav />
         {children}
+        <ScrollToTop />
       </body>
     </html>
   );

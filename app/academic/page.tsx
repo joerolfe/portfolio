@@ -1,4 +1,3 @@
-import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import AcademicPage from "@/components/AcademicPage";
 
@@ -11,7 +10,6 @@ export const metadata = {
 export default function Academic() {
   return (
     <>
-      <Nav />
       <main style={{ paddingTop: "88px" }}>
         <AcademicPage />
       </main>
